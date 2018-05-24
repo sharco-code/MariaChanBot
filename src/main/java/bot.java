@@ -57,7 +57,7 @@ public class bot extends TelegramLongPollingBot {
 
         if (actual_chatId == update.getMessage().getChatId()) {
             System.out.println(" [" + update.getMessage().getFrom().getUserName() + "]: " + update.getMessage().getText());
-            log.log(update.getMessage().getFrom().getUserName(), update.getMessage().getFrom().getId(),update.getMessage().getChat().getTitle(), update.getMessage().getText(), 4);
+            log.log(update.getMessage().getFrom().getUserName(), update.getMessage().getFrom().getId(),update.getMessage().getChat().getTitle(), update.getMessage().getText(), 0);
         } else {
             if (update.getMessage().getChat().isUserChat()) {
                 System.out.println("#User: " + update.getMessage().getFrom().getUserName());
@@ -255,7 +255,7 @@ public class bot extends TelegramLongPollingBot {
         }
 
     }
-    public String getBotUsername() { return "BOT_USERNAME"; }
+    public String getBotUsername() { return "MariaChanBot"; }
 
-    public String getBotToken() { return "BOT_TOKEN"; }
+    public String getBotToken() { return "561531701:AAEUPgqIecpebtCsF39zMxRD1yrBYahqrvE"; }
 }
