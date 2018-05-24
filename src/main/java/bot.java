@@ -53,17 +53,24 @@ public class bot extends TelegramLongPollingBot {
 
     public void onUpdateReceived(Update update) {
 
+        log log = new log();
+
         if (actual_chatId == update.getMessage().getChatId()) {
             System.out.println(" [" + update.getMessage().getFrom().getUserName() + "]: " + update.getMessage().getText());
+            log.log(update.getMessage().getFrom().getUserName(), update.getMessage().getFrom().getId(),update.getMessage().getChat().getTitle(), update.getMessage().getText(), 4);
         } else {
             if (update.getMessage().getChat().isUserChat()) {
                 System.out.println("#User: " + update.getMessage().getFrom().getUserName());
+                log.log(update.getMessage().getFrom().getUserName(), update.getMessage().getFrom().getId(),update.getMessage().getChat().getTitle(), update.getMessage().getText(), 0);
             } else if (update.getMessage().getChat().isGroupChat()) {
                 System.out.println("#Group: " + update.getMessage().getChat().getTitle());
+                log.log(update.getMessage().getFrom().getUserName(), update.getMessage().getFrom().getId(),update.getMessage().getChat().getTitle(), update.getMessage().getText(), 1);
             } else if (update.getMessage().getChat().isChannelChat()) {
                 System.out.println("#Channel: " + update.getMessage().getChat().getTitle());
+                log.log(update.getMessage().getFrom().getUserName(), update.getMessage().getFrom().getId(),update.getMessage().getChat().getTitle(), update.getMessage().getText(), 2);
             } else if (update.getMessage().getChat().isSuperGroupChat()) {
                 System.out.println("#S-Group: " + update.getMessage().getChat().getTitle());
+                log.log(update.getMessage().getFrom().getUserName(), update.getMessage().getFrom().getId(),update.getMessage().getChat().getTitle(), update.getMessage().getText(), 3);
             } else {
                 System.out.println("#WTF: " + update.getMessage().getChat().getTitle());
             }
