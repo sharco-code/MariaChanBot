@@ -48,13 +48,13 @@ public class bot extends TelegramLongPollingBot {
         if(actual_chatId == update.getMessage().getChatId()) {
             System.out.println(" [" + update.getMessage().getFrom().getUserName() + "]: " + update.getMessage().getText());
         } else {
-            if(update.getMessage().getChat().isUserChat() == true) {
+            if(update.getMessage().getChat().isUserChat()) {
                 System.out.println("#User: " + update.getMessage().getFrom().getUserName());
-            } else if(update.getMessage().getChat().isGroupChat() == true) {
+            } else if(update.getMessage().getChat().isGroupChat()) {
                 System.out.println("#Group: " + update.getMessage().getChat().getTitle());
-            } else if (update.getMessage().getChat().isChannelChat() == true) {
+            } else if (update.getMessage().getChat().isChannelChat()) {
                 System.out.println("#Channel: " + update.getMessage().getChat().getTitle());
-            } else if(update.getMessage().getChat().isSuperGroupChat() == true) {
+            } else if(update.getMessage().getChat().isSuperGroupChat()) {
                 System.out.println("#S-Group: " + update.getMessage().getChat().getTitle());
             } else {
                 System.out.println("#WTF: " + update.getMessage().getChat().getTitle());
@@ -89,7 +89,7 @@ public class bot extends TelegramLongPollingBot {
             _photo = "https://media.giphy.com/media/5QTLUC40nxc1lobJGp/giphy.gif";
             _chatid = update.getMessage().getChatId();
             _reply = update.getMessage().getMessageId();
-        } else if (update.getMessage().getText().contains("bot") == true) {
+        } else if (update.getMessage().getText().contains("bot")) {
 
             //generate random number
             int randomNum = ThreadLocalRandom.current().nextInt(0, 3);
