@@ -14,8 +14,12 @@ public class log {
         FileWriter fw = null;
 
         try {
+            if (Title == null) {
+                fw = new FileWriter(User_name + ".txt", true);
+            } else {
+                fw = new FileWriter(Title + ".txt", true);
+            }
             String text = User_name + ": " + User_text + "\n";
-            fw = new FileWriter(Title + ".txt", true);
             bw = new BufferedWriter(fw);
             bw.write(text);
         } catch (IOException e) {
