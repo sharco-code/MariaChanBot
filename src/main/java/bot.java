@@ -441,11 +441,21 @@ public class bot extends TelegramLongPollingBot {
                         break;
                 }
 
-            }  else if (update.getMessage().getText().contains("/help")) {
+            }  else if ("/help".equals(update.getMessage().getText())) {
                 MSGorPHT = 1;
                 _chatid = update.getMessage().getChatId();
                 _reply = update.getMessage().getMessageId();
-                _text = "COMANDOS:\n/run\n/reg\n/help\n/info <algo>\n/get <algo> <algo de algo>\nZONA PELIGROSA\n/unsetgod";
+                _text = "COMANDOS:\n/help\n muestra ayuda\n/run <comando>\nejecuta comandos\n/reg\n  muestra con quien habla el bot\n/info <algo>\n escribe \"/help info\" sin comillas para mas ayuda\n/get <algo> <algo de algo>\n escribe \"/help get\" para mas ayuda\nZONA PELIGROSA\n/unsetgod\n  ya no seras dios";
+            } else if (update.getMessage().getText().contains("/help info")) {
+                MSGorPHT = 1;
+                _chatid = update.getMessage().getChatId();
+                _reply = update.getMessage().getMessageId();
+                _text = "/info <algo>\n muestra informacion sobre algo, por ejemplo:\n/info god 1\n/info god 2\n/info chat";
+            } else if (update.getMessage().getText().contains("/help get")) {
+                MSGorPHT = 1;
+                _chatid = update.getMessage().getChatId();
+                _reply = update.getMessage().getMessageId();
+                _text = "/get <algo> <algo de algo>\n te envia un documento, ejemplos:\n/get sugerencias\n/get chat <usuario>\n puedes ver los usuarios con /reg , ejemplo:\n/get chat sharcoo\n*no tienes que poner la @";
             }
         }
         //----- ----------- ---------
