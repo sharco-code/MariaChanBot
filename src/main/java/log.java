@@ -5,10 +5,10 @@ import java.util.*;
 
 public class log {
 
-    private ArrayList<Integer> userIDs = new ArrayList<Integer>();
-    private ArrayList<String> userNames = new ArrayList<String>();
 
     public void log(String User_name, Integer User_id,String Title, String User_text, int kind) {
+
+        int num = 0;
 
         BufferedWriter bw = null;
         FileWriter fw = null;
@@ -17,7 +17,7 @@ public class log {
             if (Title == null) {
                 fw = new FileWriter(User_name + ".txt", true);
             } else {
-                fw = new FileWriter(Title + ".txt", true);
+                fw = new FileWriter(Title, true);
             }
             String text = User_name + ": " + User_text + "\n";
             bw = new BufferedWriter(fw);
@@ -43,4 +43,5 @@ public class log {
         }
 
     }
+
 }
