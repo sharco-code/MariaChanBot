@@ -1,3 +1,5 @@
+import com.vdurmont.emoji.EmojiParser;
+import org.telegram.telegrambots.api.methods.send.SendDocument;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.api.methods.send.SendVideo;
@@ -5,25 +7,33 @@ import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
+import java.io.*;
+import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class bot extends TelegramLongPollingBot {
 
     private long actual_chatId;
 
-    private int order7c1;
+    private int ordercda;
     //-------GOD-------------
     private int ordergod;
+    private int ordergod2;
+    private String godName;
+    private String godName2;
+    private Integer godID2;
     private Integer godID;
+    private Long godChatID2;
     private Long godChatID;
     //-----------------------
 
-    private int MSGorPHT; //1 - MSG | 2 - PHOTO | 3 - VIDEO
+    private int MSGorPHT; //1 - MSG | 2 - PHOTO | 3 - VIDEO | 4 - FILE
 
-    private String _photo;
+     private String _photo;
     private Long _chatid;
     private String _text;
     private Integer _reply;
+    private File _document;
 
     public SendMessage s_msg(String msgText, Long msgChatid, Integer msgReply) {
         SendMessage s_msg = new SendMessage();
@@ -51,26 +61,80 @@ public class bot extends TelegramLongPollingBot {
         return s_vid;
     }
 
+    public SendDocument s_doc(String docCaption, File fileDocumment, Long docChatid, Integer docReply) {
+        SendDocument s_doc = new SendDocument();
+        s_doc.setCaption(docCaption);
+        s_doc.setChatId(docChatid);
+        s_doc.setReplyToMessageId(docReply);
+        s_doc.setNewDocument(fileDocumment);
+        return s_doc;
+    }
+
+    private String Command(String command) {
+        StringBuffer output = new StringBuffer();
+        Process p;
+        try {
+            p = Runtime.getRuntime().exec(command);
+            p.waitFor();
+            BufferedReader reader =
+                    new BufferedReader(new InputStreamReader(p.getInputStream()));
+            String line = "";
+            while ((line = reader.readLine())!= null) {
+                output.append(line + "\n");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return output.toString();
+    }
+
+    private ArrayList<String> userNames = new ArrayList<String>();
+
+    public String logNames() {
+        String output = "";
+
+        for (String x : userNames) {
+            System.out.println(x);
+            output = output + "\n" + x;
+        }
+
+        return output;
+    }
+
+
     public void onUpdateReceived(Update update) {
 
         log log = new log();
 
         if (actual_chatId == update.getMessage().getChatId()) {
             System.out.println(" [" + update.getMessage().getFrom().getUserName() + "]: " + update.getMessage().getText());
-            log.log(update.getMessage().getFrom().getUserName(), update.getMessage().getFrom().getId(),update.getMessage().getChat().getTitle(), update.getMessage().getText(), 0);
+            log.log(update.getMessage().getFrom().getUserName(), update.getMessage().getFrom().getId(), update.getMessage().getChat().getTitle(), update.getMessage().getText(), 0);
         } else {
-            if (update.getMessage().getChat().isUserChat()) {
+                    if (update.getMessage().getChat().isUserChat()) {
                 System.out.println("#User: " + update.getMessage().getFrom().getUserName());
-                log.log(update.getMessage().getFrom().getUserName(), update.getMessage().getFrom().getId(),update.getMessage().getChat().getTitle(), update.getMessage().getText(), 0);
+                log.log(update.getMessage().getFrom().getUserName(), update.getMessage().getFrom().getId(), update.getMessage().getChat().getTitle(), update.getMessage().getText(), 0);
+                if(!userNames.contains("@" + update.getMessage().getFrom().getUserName())) {
+                    userNames.add("@" + update.getMessage().getFrom().getUserName());
+                }
             } else if (update.getMessage().getChat().isGroupChat()) {
                 System.out.println("#Group: " + update.getMessage().getChat().getTitle());
-                log.log(update.getMessage().getFrom().getUserName(), update.getMessage().getFrom().getId(),update.getMessage().getChat().getTitle(), update.getMessage().getText(), 1);
+                log.log(update.getMessage().getFrom().getUserName(), update.getMessage().getFrom().getId(), update.getMessage().getChat().getTitle(), update.getMessage().getText(), 1);
+
+                if(!userNames.contains(update.getMessage().getChat().getTitle())) {
+                    userNames.add(update.getMessage().getChat().getTitle());
+                }
             } else if (update.getMessage().getChat().isChannelChat()) {
                 System.out.println("#Channel: " + update.getMessage().getChat().getTitle());
-                log.log(update.getMessage().getFrom().getUserName(), update.getMessage().getFrom().getId(),update.getMessage().getChat().getTitle(), update.getMessage().getText(), 2);
+                log.log(update.getMessage().getFrom().getUserName(), update.getMessage().getFrom().getId(), update.getMessage().getChat().getTitle(), update.getMessage().getText(), 2);
+                        if(!userNames.contains(update.getMessage().getChat().getTitle())) {
+                            userNames.add(update.getMessage().getChat().getTitle());
+                        }
             } else if (update.getMessage().getChat().isSuperGroupChat()) {
                 System.out.println("#S-Group: " + update.getMessage().getChat().getTitle());
-                log.log(update.getMessage().getFrom().getUserName(), update.getMessage().getFrom().getId(),update.getMessage().getChat().getTitle(), update.getMessage().getText(), 3);
+                log.log(update.getMessage().getFrom().getUserName(), update.getMessage().getFrom().getId(), update.getMessage().getChat().getTitle(), update.getMessage().getText(), 3);
+                        if(!userNames.contains(update.getMessage().getChat().getTitle())) {
+                            userNames.add(update.getMessage().getChat().getTitle());
+                        }
             } else {
                 System.out.println("#WTF: " + update.getMessage().getChat().getTitle());
             }
@@ -82,10 +146,11 @@ public class bot extends TelegramLongPollingBot {
 
         //....................................................
         //Clear message
-        order7c1 = 0;
+        ordercda = 0;
         MSGorPHT = 0;
         _text = null;
         _photo = null;
+        _document = null;
         //....................................................
         if ("omae wa mou shindeiru".equals(update.getMessage().getText())) {
             MSGorPHT = 3;
@@ -96,7 +161,13 @@ public class bot extends TelegramLongPollingBot {
         } else if ("nani".equals(update.getMessage().getText()) || "NANI".equals(update.getMessage().getText()) || "Nani".equals(update.getMessage().getText())) {
             MSGorPHT = 3;
             _text = null;
-            _photo = "https://thumbs.gfycat.com/BlandOrnateGreatwhiteshark-max-1mb.gif";
+            _photo = "https://pa1.narvii.com/6715/4c6e81d7a5f2f5f642f40cf23a3cfe19881cb76e_hq.gif";
+            _chatid = update.getMessage().getChatId();
+            _reply = update.getMessage().getMessageId();
+        } else if ("aaa perro traes el omnitrix".equals(update.getMessage().getText()) || "Aaa perro traes el omnitrix".equals(update.getMessage().getText())) {
+            MSGorPHT = 2;
+            _text = null;
+            _photo = "https://s3.amazonaws.com/glr-fileserver/Larepublica/2018/03/04/facebook-omnitrix7-1520172526.jpg";
             _chatid = update.getMessage().getChatId();
             _reply = update.getMessage().getMessageId();
         } else if ("what".equals(update.getMessage().getText()) || "WHAT".equals(update.getMessage().getText()) || "What".equals(update.getMessage().getText())) {
@@ -105,7 +176,19 @@ public class bot extends TelegramLongPollingBot {
             _photo = "https://media.giphy.com/media/5QTLUC40nxc1lobJGp/giphy.gif";
             _chatid = update.getMessage().getChatId();
             _reply = update.getMessage().getMessageId();
-        } else if (update.getMessage().getText().contains("bot")) {
+        } else if ("/start".equals(update.getMessage().getText())) {
+            MSGorPHT = 1;
+            _text = EmojiParser.parseToUnicode("Hola " + update.getMessage().getFrom().getFirstName() + ", puedes contarme tus secretos :wink:");
+            _photo = null;
+            _chatid = update.getMessage().getChatId();
+            _reply = null;
+        } else if ("maria bot que opinas?".equals(update.getMessage().getText())) {
+            MSGorPHT = 1;
+            _text = EmojiParser.parseToUnicode("que es una kk :no_mouth:");
+            _photo = null;
+            _chatid = update.getMessage().getChatId();
+            _reply = null;
+        } else if (update.getMessage().getText().contains("mariabot") || update.getMessage().getText().contains("Mariabot") || update.getMessage().getText().contains("MariaBot")) {
 
             //generate random number
             int randomNum = ThreadLocalRandom.current().nextInt(0, 3);
@@ -149,56 +232,220 @@ public class bot extends TelegramLongPollingBot {
                 _text = "no estes triste";
             }
 
-        } else if (update.getMessage().getText().contains("intentar ")) {
+        } else if (update.getMessage().getText().contains("ntentar ")) {
             MSGorPHT = 1;
             _chatid = update.getMessage().getChatId();
             _reply = null;
 
             String message = update.getMessage().getText();
-            String[] parts = message.split("intentar ");
+            String[] parts = message.split("ntentar ");
             String part1 = parts[0]; // intentar
             String part2 = parts[1]; // intento
 
             int randomNum = ThreadLocalRandom.current().nextInt(0, 4);
 
             if(randomNum == 2) {
-                _text = update.getMessage().getFrom().getFirstName() + " intento " + part2 + " y lo consigue";
+                _text = EmojiParser.parseToUnicode(":game_die: " + update.getMessage().getFrom().getFirstName() + " intento " + part2 + " y lo consigue");
             } else {
-                _text = update.getMessage().getFrom().getFirstName() + " intento " + part2 + " pero falló";
+                _text = EmojiParser.parseToUnicode(":game_die: " + update.getMessage().getFrom().getFirstName() + " intento " + part2 + " pero falló");
             }
 
-        } else if (update.getMessage().getText().contains("7c1")) {
+        } else if (update.getMessage().getText().contains("charcodeagua")) {
             MSGorPHT = 1;
             _chatid = update.getMessage().getChatId();
             _reply = update.getMessage().getMessageId();
-            _text = "Ejecutando Orden 7c1";
-            order7c1 = 1;
+            _text = "Ejecutando Orden <charco de agua>";
+            ordercda = 1;
+        } else if (update.getMessage().getText().contains("ugerencia: ")) {
+            MSGorPHT = 1;
+            String message = update.getMessage().getText();
+            String[] parts = message.split("ugerencia: ");
+            String part1 = parts[0];
+            String part2 = parts[1];
+
+            BufferedWriter bw = null;
+            FileWriter fw = null;
+
+            try {
+                    fw = new FileWriter(".sugerencias.txt", true);
+                String text = "@" + update.getMessage().getFrom().getUserName() + " - " + update.getMessage().getFrom().getFirstName() + ": " + part2 + "\n";
+                bw = new BufferedWriter(fw);
+                bw.write(text);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }  finally {
+
+                try {
+
+                    if (bw != null)
+                        bw.close();
+
+                    if (fw != null)
+                        fw.close();
+
+                } catch (IOException ex) {
+
+                    ex.printStackTrace();
+
+                }
+
+            }
+
+            _chatid = update.getMessage().getChatId();
+            _reply = update.getMessage().getMessageId() ;
+            _text = EmojiParser.parseToUnicode("Sugerencia guardada, gracias " + update.getMessage().getFrom().getFirstName() + "! :smile:");
         }
 
         //----- GOD ORDERS ---------
-        if (ordergod == 0) {
-            if (update.getMessage().getText().contains("setgod")) {
-                MSGorPHT = 1;
-                _chatid = update.getMessage().getChatId();
-                _reply = update.getMessage().getMessageId();
-                _text = "Establecido como Dios";
-                ordergod = 1;
-                godID = update.getMessage().getFrom().getId();
-                godChatID = update.getMessage().getChatId();
+        if ("/setgod".equals(update.getMessage().getText())) {
+                if (ordergod == 0) {
+                    MSGorPHT = 1;
+                    _chatid = update.getMessage().getChatId();
+                    _reply = update.getMessage().getMessageId();
+                    ordergod = 1;
+                    godID = update.getMessage().getFrom().getId();
+                    godChatID = update.getMessage().getChatId();
+                    godName = update.getMessage().getFrom().getUserName();
+                    _text = "Estableciendo nuevo dios 1: @" + update.getMessage().getFrom().getUserName() + "\nDios ID: " + godID;
+                } else if (ordergod2 == 0) {
+                    MSGorPHT = 1;
+                    _chatid = update.getMessage().getChatId();
+                    _reply = update.getMessage().getMessageId();
+                    ordergod2 = 1;
+                    godID2 = update.getMessage().getFrom().getId();
+                    godChatID2 = update.getMessage().getChatId();
+                    godName2 = update.getMessage().getFrom().getUserName();
+                    _text = "Estableciendo nuevo dios 2: @" + update.getMessage().getFrom().getUserName() + "\nDios ID: " + godID2;
             }
         }
 
-        if(update.getMessage().getFrom().getId().equals(godID)) {
-            if (update.getMessage().getText().contains("info-dios")) {
+        if(update.getMessage().getFrom().getId().equals(godID) || update.getMessage().getFrom().getId().equals(godID2)) {
+            if (update.getMessage().getText().contains("/run ")) {
+                String message = update.getMessage().getText();
+                String[] parts = message.split("/run ");
+                String part1 = parts[0];
+                String part2 = parts[1];
+                MSGorPHT = 1;
+                _text = Command(part2);
+                _reply = update.getMessage().getMessageId();
+                _chatid = update.getMessage().getChatId();
+            }  else if ("/reg".equals(update.getMessage().getText())) {
+                MSGorPHT = 1;
+                //_text = Command("ls");
+                _text = logNames();
+                _chatid = update.getMessage().getChatId();
+                _reply = update.getMessage().getMessageId();
+            } else if ("/unsetgod".equals(update.getMessage().getText())){
+                if(ordergod == 1 || ordergod2 == 1){
+                    if(ordergod == 1) {
+                        MSGorPHT = 1;
+                        _chatid = update.getMessage().getChatId();
+                        _reply = update.getMessage().getMessageId();
+                        _text = "@" + update.getMessage().getFrom().getUserName() + " ya no es el dios 1";
+                        ordergod = 0;
+                        godID = null;
+                        godName = null;
+                        godChatID = null;
+                    } else if (ordergod2 == 1) {
+                        MSGorPHT = 1;
+                        _chatid = update.getMessage().getChatId();
+                        _reply = update.getMessage().getMessageId();
+                        _text = "@" + update.getMessage().getFrom().getUserName() + " ya no es el dios 2";
+                        ordergod2 = 0;
+                        godID2 = null;
+                        godName2 = null;
+                        godChatID = null;
+                    }
+                }
+            } else if (update.getMessage().getText().contains("/info")) {
+                String message = update.getMessage().getText();
+                String[] parts = message.split("/info ");
+                String part1 = parts[0];
+                String part2 = parts[1];
+                switch (part2) {
+                    case "god 1":
+                        if(godName != null) {
+                            MSGorPHT = 1;
+                            _chatid = update.getMessage().getChatId();
+                            _reply = update.getMessage().getMessageId();
+                            _text = "Dios 1 establecido: @" + godName + "\nDios ID: " + godID;
+                        } else {
+                            MSGorPHT = 1;
+                            _chatid = update.getMessage().getChatId();
+                            _reply = update.getMessage().getMessageId();
+                            _text = "No hay dios 1 establecido";
+                        }
+                        break;
+                    case "god 2":
+                        if(godName2 != null) {
+                            MSGorPHT = 1;
+                            _chatid = update.getMessage().getChatId();
+                            _reply = update.getMessage().getMessageId();
+                            _text = "Dios 2 establecido: @" + godName2 + "\nDios ID: " + godID2;
+                        } else {
+                            MSGorPHT = 1;
+                            _chatid = update.getMessage().getChatId();
+                            _reply = update.getMessage().getMessageId();
+                            _text = "No hay dios 2 establecido";
+                        }
+                        break;
+                    case "chat":
+                        MSGorPHT = 1;
+                        _chatid = update.getMessage().getChatId();
+                        _reply = update.getMessage().getMessageId();
+                        if (update.getMessage().getChat().isUserChat()) {
+                            _text = "Chat actual: @" + update.getMessage().getChat().getUserName() + "\nChat ID: "+ update.getMessage().getChat().getId();
+                        } else if (update.getMessage().getChat().isGroupChat()) {
+                            _text = "Chat actual: " + update.getMessage().getChat().getTitle() + "\nChat ID: "+ update.getMessage().getChat().getId();
+                        } else {
+                            _text = "*Chat actual: " + update.getMessage().getChat().getTitle() + "\nChat ID: "+ update.getMessage().getChat().getId();
+                        }
+                        break;
+                    default:
+                        MSGorPHT = 1;
+                        _chatid = update.getMessage().getChatId();
+                        _reply = update.getMessage().getMessageId();
+                        _text = "No puedo mostrar informacion sobre <" + part2 + ">";
+                        System.out.println("Error en /info switch");
+                        break;
+                }
+
+            } else if (update.getMessage().getText().contains("/get")) {
+                MSGorPHT = 4;
+                _chatid = update.getMessage().getChatId();
+                String message = update.getMessage().getText();
+                String[] parts = message.split("\\s+");
+                String part1 = parts[0];
+                String part2 = parts[1];
+                String part3 = parts[2];
+
+                switch (part2) {
+                    case "chat":
+                        File file = new File(part3 + ".txt");
+                        _document = file;
+                        _reply = update.getMessage().getMessageId();
+                        _text = null;
+                        break;
+                    case "sugerencias":
+                        File sugerencias = new File(".sugerencias.txt");
+                        _document = sugerencias;
+                        _reply = update.getMessage().getMessageId();
+                        _text = null;
+                        break;
+                    default:
+                        MSGorPHT = 1;
+                        _chatid = update.getMessage().getChatId();
+                        _reply = update.getMessage().getMessageId();
+                        _text = "No puedo enviarte <" + part2 + ">";
+                        System.out.println("Error en /get switch");
+                        break;
+                }
+
+            }  else if (update.getMessage().getText().contains("/help")) {
                 MSGorPHT = 1;
                 _chatid = update.getMessage().getChatId();
                 _reply = update.getMessage().getMessageId();
-                _text = "Dios establecido: @" + update.getMessage().getFrom().getUserName() + "\nDios ID: " + godID;
-            } else if (update.getMessage().getText().contains("info-chat")) {
-                MSGorPHT = 1;
-                _chatid = update.getMessage().getChatId();
-                _reply = update.getMessage().getMessageId();
-                _text = "Chat actual: " + update.getMessage().getChat().getTitle() + "\nChat ID: "+ update.getMessage().getChat().getId();
+                _text = "COMANDOS:\n/run\n/reg\n/help\n/info <algo>\n/get <algo> <algo de algo>\nZONA PELIGROSA\n/unsetgod";
             }
         }
         //----- ----------- ---------
@@ -223,28 +470,43 @@ public class bot extends TelegramLongPollingBot {
             } catch (TelegramApiException e) {
                 e.printStackTrace();
             }
+        } else if (MSGorPHT == 4) {
+            try {
+                sendDocument(s_doc(_text, _document, _chatid, _reply));
+                System.out.println("Documento enviado...");
+            } catch (TelegramApiException e) {
+                e.printStackTrace();
+            }
         }
 
-        if (order7c1 == 1) {
+        if (ordercda == 1) {
             String grpName = update.getMessage().getChat().getTitle();
+            String usName = update.getMessage().getFrom().getUserName();
             try {
                 Thread.sleep(3000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            _text = "Llamando a mi creador...";
+            _text = "Llamando a mi primer dios ...";
             _reply = null;
             _chatid = update.getMessage().getChatId();
 
             //sending order 7c1
             try {
                 execute(s_msg(_text,_chatid,_reply));
-                System.out.println("Orden 7c1 ejecutada");
+                System.out.println("Orden charco de agua ejecutada");
             } catch (TelegramApiException e) {
                 e.printStackTrace();
             }
             //-----------------------------------------------------------------------------
-            _text = "Te llaman del grupo: " + grpName + "\nChat ID: " + _chatid;
+            if (update.getMessage().getChat().isUserChat()) {
+                _text = "Te llama @" + usName + "\nChat ID: " + _chatid;
+            } else if (update.getMessage().getChat().isGroupChat()) {
+                _text = "Te llaman del grupo: " + grpName + "\nChat ID: " + _chatid;
+            } else {
+                _text = "*Te llaman del grupo: " + grpName + "\nChat ID: " + _chatid;
+            }
+
             _chatid = godChatID;
             _reply = null;
             try {
@@ -258,4 +520,4 @@ public class bot extends TelegramLongPollingBot {
     public String getBotUsername() { return "BOT_USERNAME"; }
 
     public String getBotToken() { return "BOT_TOKEN"; }
-}
+    }
