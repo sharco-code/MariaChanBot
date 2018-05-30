@@ -274,21 +274,14 @@ public class bot extends TelegramLongPollingBot {
             } catch (IOException e) {
                 e.printStackTrace();
             }  finally {
-
                 try {
-
                     if (bw != null)
                         bw.close();
-
                     if (fw != null)
                         fw.close();
-
                 } catch (IOException ex) {
-
                     ex.printStackTrace();
-
                 }
-
             }
 
             _chatid = update.getMessage().getChatId();
