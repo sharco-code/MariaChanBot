@@ -8,8 +8,6 @@ public class log {
 
     public void log(String User_name, Integer User_id,String Title, String User_text, int kind) {
 
-        int num = 0;
-
         BufferedWriter bw = null;
         FileWriter fw = null;
 
@@ -25,23 +23,15 @@ public class log {
         } catch (IOException e) {
             e.printStackTrace();
         }  finally {
-
             try {
-
                 if (bw != null)
                     bw.close();
-
                 if (fw != null)
                     fw.close();
-
             } catch (IOException ex) {
-
                 ex.printStackTrace();
-
             }
-
         }
-
     }
 
 }
