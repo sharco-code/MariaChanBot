@@ -1,15 +1,15 @@
 import com.vdurmont.emoji.EmojiParser;
-import org.telegram.telegrambots.api.methods.send.SendDocument;
-import org.telegram.telegrambots.api.methods.send.SendMessage;
-import org.telegram.telegrambots.api.methods.send.SendPhoto;
-import org.telegram.telegrambots.api.methods.send.SendVideo;
-import org.telegram.telegrambots.api.objects.Update;
-import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.exceptions.TelegramApiException;
+        import org.telegram.telegrambots.api.methods.send.SendDocument;
+        import org.telegram.telegrambots.api.methods.send.SendMessage;
+        import org.telegram.telegrambots.api.methods.send.SendPhoto;
+        import org.telegram.telegrambots.api.methods.send.SendVideo;
+        import org.telegram.telegrambots.api.objects.Update;
+        import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+        import org.telegram.telegrambots.exceptions.TelegramApiException;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.concurrent.ThreadLocalRandom;
+        import java.io.*;
+        import java.util.ArrayList;
+        import java.util.concurrent.ThreadLocalRandom;
 
 public class bot extends TelegramLongPollingBot {
 
@@ -29,7 +29,7 @@ public class bot extends TelegramLongPollingBot {
 
     private int MSGorPHT; //1 - MSG | 2 - PHOTO | 3 - VIDEO | 4 - FILE
 
-     private String _photo;
+    private String _photo;
     private Long _chatid;
     private String _text;
     private Integer _reply;
@@ -111,7 +111,7 @@ public class bot extends TelegramLongPollingBot {
             System.out.println(" [" + update.getMessage().getFrom().getUserName() + "]: " + update.getMessage().getText());
             log.log(update.getMessage().getFrom().getUserName(), update.getMessage().getFrom().getId(), update.getMessage().getChat().getTitle(), update.getMessage().getText(), 0);
         } else {
-                    if (update.getMessage().getChat().isUserChat()) {
+            if (update.getMessage().getChat().isUserChat()) {
                 System.out.println("#User: " + update.getMessage().getFrom().getUserName());
                 log.log(update.getMessage().getFrom().getUserName(), update.getMessage().getFrom().getId(), update.getMessage().getChat().getTitle(), update.getMessage().getText(), 0);
                 if(!userNames.contains("@" + update.getMessage().getFrom().getUserName())) {
@@ -127,15 +127,15 @@ public class bot extends TelegramLongPollingBot {
             } else if (update.getMessage().getChat().isChannelChat()) {
                 System.out.println("#Channel: " + update.getMessage().getChat().getTitle());
                 log.log(update.getMessage().getFrom().getUserName(), update.getMessage().getFrom().getId(), update.getMessage().getChat().getTitle(), update.getMessage().getText(), 2);
-                        if(!userNames.contains(update.getMessage().getChat().getTitle())) {
-                            userNames.add(update.getMessage().getChat().getTitle());
-                        }
+                if(!userNames.contains(update.getMessage().getChat().getTitle())) {
+                    userNames.add(update.getMessage().getChat().getTitle());
+                }
             } else if (update.getMessage().getChat().isSuperGroupChat()) {
                 System.out.println("#S-Group: " + update.getMessage().getChat().getTitle());
                 log.log(update.getMessage().getFrom().getUserName(), update.getMessage().getFrom().getId(), update.getMessage().getChat().getTitle(), update.getMessage().getText(), 3);
-                        if(!userNames.contains(update.getMessage().getChat().getTitle())) {
-                            userNames.add(update.getMessage().getChat().getTitle());
-                        }
+                if(!userNames.contains(update.getMessage().getChat().getTitle())) {
+                    userNames.add(update.getMessage().getChat().getTitle());
+                }
             } else {
                 System.out.println("#WTF: " + update.getMessage().getChat().getTitle());
             }
@@ -247,13 +247,13 @@ public class bot extends TelegramLongPollingBot {
                 } else if (rN1 == 1) {
                     _text = choice + " obviamente...";
                 } else if (rN1 == 2) {
-                    _text = "yo creo que " + choice + "es mejor uwu";
+                    _text = "yo creo que " + choice + " es mejor uwu";
                 } else if (rN1 == 3) {
                     _text = choice + "? Keeeeeee";
                 } else if (rN1 == 4) {
                     _text = "Claramente " + choice;
                 } else if (rN1 == 5) {
-                    _text = "puesssss" + choice + "mismo yokese";
+                    _text = "puesssss " + choice + " mismo yokese";
                 } else if (rN1 == 6) {
                     _text = choice + " no mola...";
                 } else {
@@ -383,7 +383,7 @@ public class bot extends TelegramLongPollingBot {
             FileWriter fw = null;
 
             try {
-                    fw = new FileWriter("sugerencias.txt", true);
+                fw = new FileWriter("sugerencias.txt", true);
                 String text = "@" + update.getMessage().getFrom().getUserName() + " - " + update.getMessage().getFrom().getFirstName() + ": " + part2 + "\n";
                 bw = new BufferedWriter(fw);
                 bw.write(text);
@@ -407,24 +407,24 @@ public class bot extends TelegramLongPollingBot {
 
         //----- GOD ORDERS ---------
         if ("/setgod".equals(update.getMessage().getText())) {
-                if (ordergod == 0) {
-                    MSGorPHT = 1;
-                    _chatid = update.getMessage().getChatId();
-                    _reply = update.getMessage().getMessageId();
-                    ordergod = 1;
-                    godID = update.getMessage().getFrom().getId();
-                    godChatID = update.getMessage().getChatId();
-                    godName = update.getMessage().getFrom().getUserName();
-                    _text = "Estableciendo nuevo dios 1: @" + update.getMessage().getFrom().getUserName() + "\nDios ID: " + godID;
-                } else if (ordergod2 == 0) {
-                    MSGorPHT = 1;
-                    _chatid = update.getMessage().getChatId();
-                    _reply = update.getMessage().getMessageId();
-                    ordergod2 = 1;
-                    godID2 = update.getMessage().getFrom().getId();
-                    godChatID2 = update.getMessage().getChatId();
-                    godName2 = update.getMessage().getFrom().getUserName();
-                    _text = "Estableciendo nuevo dios 2: @" + update.getMessage().getFrom().getUserName() + "\nDios ID: " + godID2;
+            if (ordergod == 0) {
+                MSGorPHT = 1;
+                _chatid = update.getMessage().getChatId();
+                _reply = update.getMessage().getMessageId();
+                ordergod = 1;
+                godID = update.getMessage().getFrom().getId();
+                godChatID = update.getMessage().getChatId();
+                godName = update.getMessage().getFrom().getUserName();
+                _text = "Estableciendo nuevo dios 1: @" + update.getMessage().getFrom().getUserName() + "\nDios ID: " + godID;
+            } else if (ordergod2 == 0) {
+                MSGorPHT = 1;
+                _chatid = update.getMessage().getChatId();
+                _reply = update.getMessage().getMessageId();
+                ordergod2 = 1;
+                godID2 = update.getMessage().getFrom().getId();
+                godChatID2 = update.getMessage().getChatId();
+                godName2 = update.getMessage().getFrom().getUserName();
+                _text = "Estableciendo nuevo dios 2: @" + update.getMessage().getFrom().getUserName() + "\nDios ID: " + godID2;
             }
         }
 
@@ -644,4 +644,4 @@ public class bot extends TelegramLongPollingBot {
     public String getBotUsername() { return "MariaChanBot"; }
 
     public String getBotToken() { return "BOT_TOKEN"; }
-    }
+}
