@@ -27,6 +27,10 @@ public class bot extends TelegramLongPollingBot {
     private Long godChatID;
     //-----------------------
 
+    //
+    int randomNumRE;
+
+
     private int MSGorPHT; //1 - MSG | 2 - PHOTO | 3 - VIDEO | 4 - FILE
 
     private String _photo;
@@ -184,36 +188,41 @@ public class bot extends TelegramLongPollingBot {
                 _chatid = update.getMessage().getChatId();
                 _reply = null;
             }
-        } else if (update.getMessage().getText().contains("y la cosa suena ra")) {
+        } else if (update.getMessage().getText().contains("y la cosa suena ra") || update.getMessage().getText().contains("Y la cosa suena ra")) {
             MSGorPHT = 1;
             _text = "scooby doo papa";
             _photo = null;
             _chatid = update.getMessage().getChatId();
             _reply = null;
-        } else if ("mariabot que opinas?".equals(update.getMessage().getText())) {
-
-            int randomNum = ThreadLocalRandom.current().nextInt(0, 4);
+        } else if (update.getMessage().getText().contains("cooby doo papa") || update.getMessage().getText().contains("cooby doo pa pa")) {
             MSGorPHT = 1;
-            _chatid = update.getMessage().getChatId();
             _photo = null;
+            _chatid = update.getMessage().getChatId();
             _reply = null;
 
-            if(randomNum == 0) {
-                _text = EmojiParser.parseToUnicode("que es una kk :no_mouth:");
-            } else if (randomNum == 1) {
-                _text = EmojiParser.parseToUnicode("tiene razon " + update.getMessage().getFrom().getFirstName() + " obviamente");
-            } else if (randomNum == 2) {
-                _text = EmojiParser.parseToUnicode("que me da igual \uD83D\uDE44");
-            } else {
-                _text = EmojiParser.parseToUnicode("mmm :thinking:");
+            int rN = ThreadLocalRandom.current().nextInt(0, 4);
+            while(rN == randomNumRE) {
+                rN = ThreadLocalRandom.current().nextInt(0, 4);
             }
+            randomNumRE = rN;
+
+            if(rN == 0) {
+                _text = "y el pum pum";
+            } else if (rN == 1) {
+                _text = "y el pum pum pum";
+            } else if (rN == 2) {
+                _text = "y el pum pum pum pum";
+            } else {
+                _text = "y el pum pum pum pum pum";
+            }
+
         } else if (update.getMessage().getText().contains("mariabot") || update.getMessage().getText().contains("Mariabot") || update.getMessage().getText().contains("MariaBot") || update.getMessage().getText().contains("maria bot") || update.getMessage().getText().contains("Maria bot") || update.getMessage().getText().contains("Maria Bot")) {
 
             MSGorPHT = 1;
             _chatid = update.getMessage().getChatId();
             _reply = null;
 
-            if (update.getMessage().getText().contains("que prefieres, ") || update.getMessage().getText().contains("ariabot, ") || update.getMessage().getText().contains("aria bot, ") || update.getMessage().getText().contains("que es mejor, ") || update.getMessage().getText().contains("elige, ") && update.getMessage().getText().contains(" o ")) {
+            if (update.getMessage().getText().contains("que prefieres, ") || update.getMessage().getText().contains("que hago, ") || update.getMessage().getText().contains("quien prefieres, ") || update.getMessage().getText().contains("ariabot, ") || update.getMessage().getText().contains("aria bot, ") || update.getMessage().getText().contains("ue es mejor, ") || update.getMessage().getText().contains("elige, ") && update.getMessage().getText().contains(" o ")) {
                 String message = update.getMessage().getText();
                 String[] parts = message.split(", ");
                 String part1 = parts[0];
@@ -234,6 +243,10 @@ public class bot extends TelegramLongPollingBot {
                 }
 
                 int rN = ThreadLocalRandom.current().nextInt(0, 2);
+                while(rN == randomNumRE) {
+                    rN = ThreadLocalRandom.current().nextInt(0, 2);
+                }
+                randomNumRE = rN;
 
                 String choice;
                 if (rN == 0) {
@@ -242,6 +255,10 @@ public class bot extends TelegramLongPollingBot {
                     choice = realxpart2;
                 }
                 int rN1 = ThreadLocalRandom.current().nextInt(0, 7);
+                while(rN1 == randomNumRE) {
+                    rN1 = ThreadLocalRandom.current().nextInt(0, 7);
+                }
+                randomNumRE = rN1;
                 if (rN1 == 0) {
                     _text = "es mejor " + choice;
                 } else if (rN1 == 1) {
@@ -260,12 +277,47 @@ public class bot extends TelegramLongPollingBot {
                     _text = "prefiero " + choice;
                 }
 
+            } else if (update.getMessage().getText().contains("version actual")) {
+                MSGorPHT = 1;
+                _chatid = update.getMessage().getChatId();
+                _reply = update.getMessage().getMessageId();
+                _text = "version actual: 1.6";
+            } else if (update.getMessage().getText().contains("ataca")) {
+                MSGorPHT = 1;
+                _photo = null;
+                _chatid = update.getMessage().getChatId();
+                _reply = null;
+
+                int rN = ThreadLocalRandom.current().nextInt(0, 6);
+                while(rN == randomNumRE) {
+                    rN = ThreadLocalRandom.current().nextInt(0, 6);
+                }
+                randomNumRE = rN;
+
+                if(rN == 0) {
+                    _text = "Tu waifu es un trap";
+                } else if (rN == 1) {
+                    _text = "Tu waifu no existe";
+                } else if (rN == 2) {
+                    _text = "Tu waifu no es real";
+                } else if (rN == 3) {
+                    _text = "Tu waifu es pokemon";
+                } else if (rN == 4) {
+                    _text = "Eres tan feo que ni los ghouls te quieren comer";
+                } else {
+                    _text = "Tu waifu es una kk";
+                }
             } else if (update.getMessage().getText().contains("si o no")) {
                 MSGorPHT = 1;
                 _chatid = update.getMessage().getChatId();
                 _reply = null;
 
-                int rNx = ThreadLocalRandom.current().nextInt(0, 7);
+                int rNx = ThreadLocalRandom.current().nextInt(0, 6);
+                while(rNx == randomNumRE) {
+                    rNx = ThreadLocalRandom.current().nextInt(0, 6);
+                }
+                randomNumRE = rNx;
+
                 if (rNx == 0) {
                     _text = EmojiParser.parseToUnicode("Seh :smirk:");
                 } else if (rNx == 1) {
@@ -281,10 +333,37 @@ public class bot extends TelegramLongPollingBot {
                 } else {
                     _text = "puede \uD83D\uDE44";
                 }
+            } else if(update.getMessage().getText().contains("que opinas")) {
+                int randomNum = ThreadLocalRandom.current().nextInt(0, 4);
+                while(randomNum == randomNumRE) {
+                    randomNum = ThreadLocalRandom.current().nextInt(0, 4);
+                }
+                randomNumRE = randomNum;
+
+                MSGorPHT = 1;
+                _chatid = update.getMessage().getChatId();
+                _photo = null;
+                _reply = null;
+
+                if(randomNum == 0) {
+                    _text = EmojiParser.parseToUnicode("que es una kk :no_mouth:");
+                } else if (randomNum == 1) {
+                    _text = EmojiParser.parseToUnicode("tiene razon " + update.getMessage().getFrom().getFirstName() + " obviamente");
+                } else if (randomNum == 2) {
+                    _text = EmojiParser.parseToUnicode("que me da igual \uD83D\uDE44");
+                } else {
+                    _text = EmojiParser.parseToUnicode("mmm :thinking:");
+                }
             } else {
+
                 int randomNum = ThreadLocalRandom.current().nextInt(0, 12);
+                while(randomNum == randomNumRE) {
+                    randomNum = ThreadLocalRandom.current().nextInt(0, 12);
+                }
+                randomNumRE = randomNum;
+
                 //all phrases
-                if (update.getMessage().getText().contains("put") || update.getMessage().getText().contains("tonto") || update.getMessage().getText().contains("inutil") || update.getMessage().getText().contains("subnormal") || update.getMessage().getText().contains("hijoputa") || update.getMessage().getText().contains("maricon") || update.getMessage().getText().contains("cabron") || update.getMessage().getText().contains("idiota") || update.getMessage().getText().contains("baka")) {
+                if (update.getMessage().getText().contains("put") || update.getMessage().getText().contains("tont") || update.getMessage().getText().contains("inutil") || update.getMessage().getText().contains("subnormal") || update.getMessage().getText().contains("hijoputa") || update.getMessage().getText().contains("maricon") || update.getMessage().getText().contains("cabron") || update.getMessage().getText().contains("idiota") || update.getMessage().getText().contains("baka")) {
                     if (randomNum == 1) {
                         _text = "eh, sin insultar xd";
                     } else if (randomNum == 2) {
@@ -292,25 +371,25 @@ public class bot extends TelegramLongPollingBot {
                     } else if (randomNum == 3) {
                         _text = ":c";
                     } else if (randomNum == 4) {
-                        _text = "khe pesaos";
+                        _text = "khe pesaos che";
                     } else if (randomNum == 5 || randomNum == 5) {
                         _text = "acho";
                     } else if (randomNum == 7) {
-                        _text = "achoo";
+                        _text = "tonto tu";
                     } else if (randomNum == 8) {
-                        _text = "que dices";
+                        _text = "te saco la navaja";
                     } else if (randomNum == 9) {
-                        _text = ":3";
+                        _text = "vas a morir";
                     } else if (randomNum == 10) {
-                        _text = ":c";
+                        _text = "no me hables asi";
                     } else if (randomNum == 11) {
-                        _text = EmojiParser.parseToUnicode(":neutral_face:");
+                        _text = EmojiParser.parseToUnicode("enserio... :neutral_face:");
                     } else {
                         _text = "vaya tela...";
                     }
                 } else {
                     if (randomNum == 1) {
-                        _text = "claro, es por que soy un bot verdad?";
+                        _text = "ehhhh";
                     } else if (randomNum == 2) {
                         _text = "que pasa aqui?";
                     } else if (randomNum == 3) {
@@ -340,12 +419,18 @@ public class bot extends TelegramLongPollingBot {
             _chatid = update.getMessage().getChatId();
             _reply = update.getMessage().getMessageId();
 
-            int randomNum = ThreadLocalRandom.current().nextInt(0, 2);
+            int randomNum = ThreadLocalRandom.current().nextInt(0, 3);
+            while(randomNum == randomNumRE) {
+                randomNum = ThreadLocalRandom.current().nextInt(0, 3);
+            }
+            randomNumRE = randomNum;
 
             if(randomNum == 0) {
                 _text = "Sonrie princesa";
             } else if (randomNum == 1) {
                 _text = "no estes triste";
+            } else {
+                _text = "acho alegrate";
             }
 
         } else if (update.getMessage().getText().contains("ntentar ")) {
@@ -359,6 +444,10 @@ public class bot extends TelegramLongPollingBot {
             String part2 = parts[1]; // intento
 
             int randomNum = ThreadLocalRandom.current().nextInt(0, 5);
+            while(randomNum == randomNumRE) {
+                randomNum = ThreadLocalRandom.current().nextInt(0, 5);
+            }
+            randomNumRE = randomNum;
 
             if(randomNum == 2) {
                 _text = EmojiParser.parseToUnicode(":game_die: " + update.getMessage().getFrom().getFirstName() + " intento " + part2 + " y lo consigue");
