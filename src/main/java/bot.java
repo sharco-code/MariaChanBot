@@ -1,11 +1,11 @@
 import com.vdurmont.emoji.EmojiParser;
-        import org.telegram.telegrambots.api.methods.send.SendDocument;
-        import org.telegram.telegrambots.api.methods.send.SendMessage;
-        import org.telegram.telegrambots.api.methods.send.SendPhoto;
-        import org.telegram.telegrambots.api.methods.send.SendVideo;
-        import org.telegram.telegrambots.api.objects.Update;
-        import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-        import org.telegram.telegrambots.exceptions.TelegramApiException;
+import org.telegram.telegrambots.api.methods.send.SendDocument;
+import org.telegram.telegrambots.api.methods.send.SendMessage;
+import org.telegram.telegrambots.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.api.methods.send.SendVideo;
+import org.telegram.telegrambots.api.objects.Update;
+import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.exceptions.TelegramApiException;
 
         import java.io.*;
         import java.util.ArrayList;
@@ -281,7 +281,7 @@ public class bot extends TelegramLongPollingBot {
                 MSGorPHT = 1;
                 _chatid = update.getMessage().getChatId();
                 _reply = update.getMessage().getMessageId();
-                _text = "version actual: 1.6";
+                _text = "version actual: 1.6.1";
             } else if (update.getMessage().getText().contains("ataca")) {
                 MSGorPHT = 1;
                 _photo = null;
