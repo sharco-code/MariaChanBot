@@ -281,7 +281,7 @@ public class bot extends TelegramLongPollingBot {
                 MSGorPHT = 1;
                 _chatid = update.getMessage().getChatId();
                 _reply = update.getMessage().getMessageId();
-                _text = "version actual: 1.6.1";
+                _text = "version actual: 1.6.2";
             } else if (update.getMessage().getText().contains("ataca")) {
                 MSGorPHT = 1;
                 _photo = null;
@@ -648,7 +648,7 @@ public class bot extends TelegramLongPollingBot {
                 MSGorPHT = 1;
                 _chatid = update.getMessage().getChatId();
                 _reply = update.getMessage().getMessageId();
-                _text = "COMANDOS:\n/help\n muestra ayuda\n/run <comando>\nejecuta comandos\n/reg\n  muestra con quien habla el bot\n/chat <usuario>\n lista la conversación\n/info <algo>\n escribe \"/help info\" sin comillas para mas ayuda\n/get <algo> <algo de algo>\n escribe \"/help get\" para mas ayuda\nZONA PELIGROSA\n/unsetgod\n  ya no seras dios";
+                _text = "COMANDOS:\n/help\n muestra ayuda\n/run <comando>\nejecuta comandos\n/reg\n  muestra con quien habla el bot\n/chat <usuario>\n lista la conversación\n/info <algo>\n escribe \"/help info\" sin comillas para mas ayuda\n/get <archivo>\n escribe \"/help get\" para mas ayuda\nZONA PELIGROSA\n/unsetgod\n  ya no seras dios";
             }  else if ("/help info".equals(update.getMessage().getText())) {
                 MSGorPHT = 1;
                 _chatid = update.getMessage().getChatId();
