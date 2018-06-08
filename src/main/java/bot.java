@@ -295,7 +295,7 @@ public class bot extends TelegramLongPollingBot {
                     typeMsg = 1;
                     _chatid = update.getMessage().getChatId();
                     _reply = update.getMessage().getMessageId();
-                    _text = "version actual: 1.7";
+                    _text = "version actual: 1.7.1";
                 } else if (update.getMessage().getText().contains("dime algo")) {
                     typeMsg = 5;
                     _chatid = update.getMessage().getChatId();
@@ -701,7 +701,7 @@ public class bot extends TelegramLongPollingBot {
                 _chatid = update.getMessage().getChatId();
                 _reply = null;
                 _text = "ok";
-                msgSenderGrp = update.getMessage().getChatId();
+                msgSenderGrp = null;
             } else if (update.getMessage().getText().contains("/send")) {
                 String message = update.getMessage().getText();
                 String[] parts = message.split("/send ");
