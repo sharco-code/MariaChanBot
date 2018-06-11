@@ -15,7 +15,8 @@ public class log {
             if (Title == null) {
                 fw = new FileWriter(User_name + ".txt", true);
             } else {
-                fw = new FileWriter(Title + ".txt", true);
+                String Title_modified = Title.replace(" ", "-");
+                fw = new FileWriter(Title_modified + ".txt", true);
             }
             String text = User_name + ": " + User_text + "\n";
             bw = new BufferedWriter(fw);
