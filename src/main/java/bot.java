@@ -867,5 +867,5 @@ public class bot extends TelegramLongPollingBot {
     }
     public String getBotUsername() { return "MariaChanTestBot"; }
 
-    public String getBotToken() { return "613951827:AAEWvXUzdEIyjabGzTdD9_v71JmhwGDfAl0"; }
+    public String getBotToken() { return "API_TOKEN"; }
 }
