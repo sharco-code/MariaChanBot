@@ -24,8 +24,15 @@ public class bot extends TelegramLongPollingBot {
     private Long godChatID2;
     private Long godChatID;
     //-----------------------
+    //Main group
     private String mainGroupName = null;
     private Long mainGroupID = null;
+    //User selected
+    private String userSelectedName = null;
+    private Long userSelectedID = null;
+
+    //hate word (person)
+    private String hate = null;
     //
     int randomNumRE;
 
@@ -163,7 +170,7 @@ public class bot extends TelegramLongPollingBot {
                 System.out.println("#User: " + update.getMessage().getFrom().getUserName());
                 log.log(update.getMessage().getFrom().getUserName(), update.getMessage().getFrom().getId(), update.getMessage().getChat().getTitle(), update.getMessage().getText(), 0);
                 //register chats in array
-                if(!UsersIDArray.contains(update.getMessage().getFrom().getId())) {
+                if (!UsersIDArray.contains(update.getMessage().getFrom().getId())) {
                     UsersArray.add("@" + update.getMessage().getFrom().getUserName());
                     UsersIDArray.add(update.getMessage().getFrom().getId());
                 }
@@ -171,7 +178,7 @@ public class bot extends TelegramLongPollingBot {
                 System.out.println("#Group: " + update.getMessage().getChat().getTitle());
                 log.log(update.getMessage().getFrom().getUserName(), update.getMessage().getFrom().getId(), update.getMessage().getChat().getTitle(), update.getMessage().getText(), 1);
 
-                if(!GroupsIDArray.contains(update.getMessage().getChat().getId())) {
+                if (!GroupsIDArray.contains(update.getMessage().getChat().getId())) {
                     GroupsArray.add(update.getMessage().getChat().getTitle());
                     GroupsIDArray.add(update.getMessage().getChat().getId());
                 }
@@ -190,8 +197,9 @@ public class bot extends TelegramLongPollingBot {
             System.out.println(" [" + update.getMessage().getFrom().getUserName() + "]: " + update.getMessage().getText());
             actual_chatId = update.getMessage().getChatId();
         }
-        if(update.getMessage().getChatId().equals(mainGroupID)) {
-            if(!GroupUsersIDArray.contains(update.getMessage().getFrom().getId())) {
+
+        if (update.getMessage().getChatId().equals(mainGroupID)) {
+            if (!GroupUsersIDArray.contains(update.getMessage().getFrom().getId())) {
                 GroupUsersArray.add("@" + update.getMessage().getFrom().getUserName());
                 GroupUsersIDArray.add(update.getMessage().getFrom().getId());
             }
@@ -206,7 +214,7 @@ public class bot extends TelegramLongPollingBot {
         _document = null;
         _reply = null;
         //....................................................
-        if(update.getMessage().getSticker() == null) {
+        if (update.getMessage().getSticker() == null) {
             if ("omae wa mou shindeiru".equals(update.getMessage().getText())) {
                 typeMsg = 3;
                 _text = null;
@@ -273,7 +281,67 @@ public class bot extends TelegramLongPollingBot {
                 _chatid = update.getMessage().getChatId();
                 _reply = null;
 
-                if (update.getMessage().getText().contains("que prefieres, ") || update.getMessage().getText().contains("que hago, ") || update.getMessage().getText().contains("quien prefieres, ") || update.getMessage().getText().contains("ariabot, ") || update.getMessage().getText().contains("aria bot, ") || update.getMessage().getText().contains("ue es mejor, ") || update.getMessage().getText().contains("elige, ") && update.getMessage().getText().contains(" o ")) {
+                if (hate != null && update.getMessage().getText().contains(hate)) {
+                    int randomNum = ThreadLocalRandom.current().nextInt(0, 4);
+                    while (randomNum == randomNumRE) {
+                        randomNum = ThreadLocalRandom.current().nextInt(0, 4);
+                    }
+                    randomNumRE = randomNum;
+
+                    typeMsg = 1;
+                    _chatid = update.getMessage().getChatId();
+                    _photo = null;
+                    _reply = null;
+
+                    if (randomNum == 0) {
+                        _text = EmojiParser.parseToUnicode("No tengo nada que hablar con un gilipollas como " + hate);
+                    } else if (randomNum == 1) {
+                        _text = EmojiParser.parseToUnicode("A " + hate + " no se merece ni que le hable ");
+                    } else if (randomNum == 2) {
+                        _text = EmojiParser.parseToUnicode("Que me da igual todo lo que tenga que ver con esa persona \uD83D\uDE44");
+                    } else {
+                        _text = EmojiParser.parseToUnicode("Para que mencionas al subnormal ese¿?");
+                    }
+                } else if (update.getMessage().getText().contains("si o no")) {
+                    typeMsg = 1;
+                    _chatid = update.getMessage().getChatId();
+                    _reply = null;
+
+                    int rNx = ThreadLocalRandom.current().nextInt(0, 6);
+                    while (rNx == randomNumRE) {
+                        rNx = ThreadLocalRandom.current().nextInt(0, 6);
+                    }
+                    randomNumRE = rNx;
+
+                    if (rNx == 0) {
+                        _text = EmojiParser.parseToUnicode("Seh :smirk:");
+                    } else if (rNx == 1) {
+                        _text = "nooooooo";
+                    } else if (rNx == 2) {
+                        _text = "ps si";
+                    } else if (rNx == 3) {
+                        _text = "ps no";
+                    } else if (rNx == 4) {
+                        _text = "Claro";
+                    } else if (rNx == 5) {
+                        _text = EmojiParser.parseToUnicode("mmm :thinking: nop");
+                    } else {
+                        _text = "puede \uD83D\uDE44";
+                    }
+                } else if (update.getMessage().getText().contains("tirar dados")) {
+                    typeMsg = 1;
+                    _chatid = update.getMessage().getChatId();
+                    _reply = null;
+
+                    int rNx = ThreadLocalRandom.current().nextInt(0, 100);
+                    while (rNx == randomNumRE) {
+                        rNx = ThreadLocalRandom.current().nextInt(0, 100);
+                    }
+                    randomNumRE = rNx;
+
+                    _text = EmojiParser.parseToUnicode(":game_die: " + update.getMessage().getFrom().getFirstName() + " tira dados y saca " + rNx + " (0-100)");
+
+                } else if (update.getMessage().getText().contains("que prefieres, ") || update.getMessage().getText().contains("que hago, ") || update.getMessage().getText().contains("quien prefieres, ") || update.getMessage().getText().contains("ariabot, ") || update.getMessage().getText().contains("aria bot, ") || update.getMessage().getText().contains("ue es mejor, ") || update.getMessage().getText().contains("elige, ") && update.getMessage().getText().contains(" o ")) {
                     String message = update.getMessage().getText();
                     String[] parts = message.split(", ");
                     String part1 = parts[0];
@@ -332,7 +400,7 @@ public class bot extends TelegramLongPollingBot {
                     typeMsg = 1;
                     _chatid = update.getMessage().getChatId();
                     _reply = update.getMessage().getMessageId();
-                    _text = "version actual: 1.8.0";
+                    _text = "version actual: 1.9.0";
                 } else if (update.getMessage().getText().contains("dime algo")) {
                     typeMsg = 5;
                     _chatid = update.getMessage().getChatId();
@@ -361,32 +429,6 @@ public class bot extends TelegramLongPollingBot {
                         _text = "Eres tan feo que ni los ghouls te quieren comer";
                     } else {
                         _text = "Tu waifu es una kk";
-                    }
-                } else if (update.getMessage().getText().contains("si o no")) {
-                    typeMsg = 1;
-                    _chatid = update.getMessage().getChatId();
-                    _reply = null;
-
-                    int rNx = ThreadLocalRandom.current().nextInt(0, 6);
-                    while (rNx == randomNumRE) {
-                        rNx = ThreadLocalRandom.current().nextInt(0, 6);
-                    }
-                    randomNumRE = rNx;
-
-                    if (rNx == 0) {
-                        _text = EmojiParser.parseToUnicode("Seh :smirk:");
-                    } else if (rNx == 1) {
-                        _text = "nooooooo";
-                    } else if (rNx == 2) {
-                        _text = "ps si";
-                    } else if (rNx == 3) {
-                        _text = "ps no";
-                    } else if (rNx == 4) {
-                        _text = "Claro";
-                    } else if (rNx == 5) {
-                        _text = EmojiParser.parseToUnicode("mmm :thinking: nop");
-                    } else {
-                        _text = "puede \uD83D\uDE44";
                     }
                 } else if (update.getMessage().getText().contains("que opinas")) {
                     int randomNum = ThreadLocalRandom.current().nextInt(0, 4);
@@ -484,9 +526,9 @@ public class bot extends TelegramLongPollingBot {
                 _chatid = update.getMessage().getChatId();
                 _reply = update.getMessage().getMessageId();
 
-                int randomNum = ThreadLocalRandom.current().nextInt(0, 3);
+                int randomNum = ThreadLocalRandom.current().nextInt(0, 4);
                 while (randomNum == randomNumRE) {
-                    randomNum = ThreadLocalRandom.current().nextInt(0, 3);
+                    randomNum = ThreadLocalRandom.current().nextInt(0, 4);
                 }
                 randomNumRE = randomNum;
 
@@ -494,6 +536,8 @@ public class bot extends TelegramLongPollingBot {
                     _text = "Sonrie princesa";
                 } else if (randomNum == 1) {
                     _text = "no estes triste";
+                } else if (randomNum == 2) {
+                    _text = ":)";
                 } else {
                     _text = "acho alegrate";
                 }
@@ -559,7 +603,7 @@ public class bot extends TelegramLongPollingBot {
                 _text = EmojiParser.parseToUnicode("Sugerencia guardada, gracias " + update.getMessage().getFrom().getFirstName() + "! :smile:");
             }
         } else {
-            System.out.println(update.getMessage().getSticker().getFileId());
+            System.out.println("Sticker ID: " + update.getMessage().getSticker().getFileId());
         }
 
         //----- GOD ORDERS ---------
@@ -585,7 +629,7 @@ public class bot extends TelegramLongPollingBot {
             }
         }
 
-        if(update.getMessage().getFrom().getId().equals(godID) || update.getMessage().getFrom().getId().equals(godID2)) {
+        if (update.getMessage().getFrom().getId().equals(godID) || update.getMessage().getFrom().getId().equals(godID2)) {
             if (update.getMessage().getText().contains("/run ")) {
                 String message = update.getMessage().getText();
                 String[] parts = message.split("/run ");
@@ -609,9 +653,9 @@ public class bot extends TelegramLongPollingBot {
                 _text = Command("cat sugerencias.txt");
                 _reply = update.getMessage().getMessageId();
                 _chatid = update.getMessage().getChatId();
-            } else if ("/unsetgod".equals(update.getMessage().getText())){
-                if(ordergod == 1 || ordergod2 == 1){
-                    if(ordergod == 1) {
+            } else if ("/unsetgod".equals(update.getMessage().getText())) {
+                if (ordergod == 1 || ordergod2 == 1) {
+                    if (ordergod == 1) {
                         typeMsg = 1;
                         _chatid = update.getMessage().getChatId();
                         _reply = update.getMessage().getMessageId();
@@ -642,14 +686,14 @@ public class bot extends TelegramLongPollingBot {
                 String part2 = parts[1];
                 switch (part2) {
                     case "god 1":
-                        if(godName != null) {
+                        if (godName != null) {
                             _text = "Dios 1 establecido: @" + godName + "\nDios ID: " + godID;
                         } else {
                             _text = "No hay dios 1 establecido";
                         }
                         break;
                     case "god 2":
-                        if(godName2 != null) {
+                        if (godName2 != null) {
                             _text = "Dios 2 establecido: @" + godName2 + "\nDios ID: " + godID2;
                         } else {
                             _text = "No hay dios 2 establecido";
@@ -657,16 +701,23 @@ public class bot extends TelegramLongPollingBot {
                         break;
                     case "chat":
                         if (update.getMessage().getChat().isUserChat()) {
-                            _text = "Chat actual: @" + update.getMessage().getChat().getUserName() + "\nChat ID: "+ update.getMessage().getChat().getId();
+                            _text = "Chat actual: @" + update.getMessage().getChat().getUserName() + "\nChat ID: " + update.getMessage().getChat().getId();
                         } else if (update.getMessage().getChat().isGroupChat()) {
-                            _text = "Chat actual: " + update.getMessage().getChat().getTitle() + "\nChat ID: "+ update.getMessage().getChat().getId();
+                            _text = "Chat actual: " + update.getMessage().getChat().getTitle() + "\nChat ID: " + update.getMessage().getChat().getId();
                         } else {
-                            _text = "*Chat actual: " + update.getMessage().getChat().getTitle() + "\nChat ID: "+ update.getMessage().getChat().getId();
+                            _text = "*Chat actual: " + update.getMessage().getChat().getTitle() + "\nChat ID: " + update.getMessage().getChat().getId();
+                        }
+                        break;
+                    case "setuser":
+                        if (userSelectedID != null) {
+                            _text = "Usuario establecido: \nID: " + userSelectedID;
+                        } else {
+                            _text = "No hay usuario establecido";
                         }
                         break;
                     case "maingroup":
-                        if(mainGroupID != null) {
-                            _text = "Grupo principal: " + mainGroupName + "\nChat ID: "+ mainGroupID;
+                        if (mainGroupID != null) {
+                            _text = "Grupo principal: " + mainGroupName + "\nChat ID: " + mainGroupID;
                         } else {
                             _text = "No hay grupo principal establecido";
                         }
@@ -698,43 +749,43 @@ public class bot extends TelegramLongPollingBot {
                     System.out.println("Error en /get");
                 }
 
-            }  else if ("/help".equals(update.getMessage().getText())) {
+            } else if ("/help".equals(update.getMessage().getText())) {
                 typeMsg = 1;
                 _chatid = update.getMessage().getChatId();
                 _reply = update.getMessage().getMessageId();
-                _text = "COMANDOS:\n/help\n muestra ayuda\n/run <comando>\nejecuta comandos\n/list <algo>\n te lista informacion sobre algo\n escribe \"/help list\" para mas ayuda\n/chat <usuario>\n lista la conversación\n/info <algo>\n escribe \"/help info\" para mas ayuda\n/get <archivo>\n escribe \"/help get\" para mas ayuda\n/setmaingroup\n establece grupo principal\n/unsetmaingroup\n quita el grupo principal establecido\n/send <texto>\n envia un mensaje al grupo principal\nZONA PELIGROSA\n/unsetgod\n  ya no seras dios";
-            }  else if ("/help info".equals(update.getMessage().getText())) {
+                _text = "COMANDOS:\n/help\n muestra ayuda\n/run <comando>\nejecuta comandos\n/list <algo>\n te lista informacion sobre algo\n escribe \"/help list\" para mas ayuda\n/chat <usuario>\n lista la conversación\n/info <algo>\n escribe \"/help info\" para mas ayuda\n/get <archivo>\n escribe \"/help get\" para mas ayuda\n/setmaingroup\n establece grupo principal\n/unsetmaingroup\n quita el grupo principal establecido\n/send <texto>\n envia un mensaje al grupo principal\n/sethate <alguien>\n el bot odiara esa persona\n/unsethate\n ya no odiara a la persona establecida\n/setuser <ID de usuario>\n establece un usuario, al cual le podras enviar mensajes\n/unsetuser\n quita el usuario establecido\n/xsend <texto>\n envia un mensaje a el usuario establecido\nZONA PELIGROSA\n/unsetgod\n  ya no seras dios\n/shutdown\n apaga el bot";
+            } else if ("/help info".equals(update.getMessage().getText())) {
                 typeMsg = 1;
                 _chatid = update.getMessage().getChatId();
                 _reply = update.getMessage().getMessageId();
                 _text = "/info <algo>\n muestra informacion sobre algo, por ejemplo:\n/info god 1\n/info god 2\n/info chat";
-            }  else if ("/help get".equals(update.getMessage().getText())) {
+            } else if ("/help get".equals(update.getMessage().getText())) {
                 typeMsg = 1;
                 _chatid = update.getMessage().getChatId();
                 _reply = update.getMessage().getMessageId();
-                _text = "/get <archivo>\n te envia un documento, ejemplos:\n/get sugerencias.txt\n si es un grupo y contiene espacios, tienes que ponerlo con guiones, ej:\n /get Frupo-test.txt";
+                _text = "/get <archivo>\n te envia un documento, ejemplos:\n/get sugerencias.txt\n si es un grupo y contiene espacios, tienes que ponerlo con guiones, ej:\n /get Grupo-test.txt";
             } else if ("/help list".equals(update.getMessage().getText())) {
                 typeMsg = 1;
                 _chatid = update.getMessage().getChatId();
                 _reply = update.getMessage().getMessageId();
-                _text = "/list <algo>\n te lista algo, ejemplos:\n/list chats\n te lista los usuarios que han hablado al bot\n/list groups\nte lista los grupos en los que ha estado el bot\n si es un grupo y contiene espacios, tienes que ponerlo con guiones, ej:\n /list chat Grupo-test.txt";
+                _text = "/list <algo>\n te lista algo, ejemplos:\n/list chats\n te lista los usuarios que han hablado al bot\n/list groups\nte lista los grupos en los que ha estado el bot\n/list maingroup\n lista los usuarios de el grupo principal";
             } else if ("/setmaingroup".equals(update.getMessage().getText())) {
                 typeMsg = 1;
                 _chatid = update.getMessage().getChatId();
                 _reply = update.getMessage().getMessageId();
-                if(mainGroupID != null) {
-                    if(update.getMessage().getChat().isGroupChat()) {
+                if (mainGroupID != null) {
+                    if (update.getMessage().getChat().isGroupChat()) {
                         mainGroupName = update.getMessage().getChat().getTitle();
                         mainGroupID = update.getMessage().getChatId();
-                        _text = "Grupo principal cambiado\nGrupo: " + mainGroupName + "\nChat ID: "+ mainGroupID;
+                        _text = "Grupo principal cambiado\nGrupo: " + mainGroupName + "\nChat ID: " + mainGroupID;
                     } else {
                         _text = "Esto no es un grupo";
                     }
                 } else {
-                    if(update.getMessage().getChat().isGroupChat()) {
+                    if (update.getMessage().getChat().isGroupChat()) {
                         mainGroupName = update.getMessage().getChat().getTitle();
                         mainGroupID = update.getMessage().getChatId();
-                        _text = "Grupo principal establecido\nGrupo: " + mainGroupName + "\nChat ID: "+ mainGroupID;
+                        _text = "Grupo principal establecido\nGrupo: " + mainGroupName + "\nChat ID: " + mainGroupID;
                     } else {
                         _text = "Esto no es un grupo";
                     }
@@ -743,12 +794,60 @@ public class bot extends TelegramLongPollingBot {
                 typeMsg = 1;
                 _chatid = update.getMessage().getChatId();
                 _reply = update.getMessage().getMessageId();
-                if(mainGroupID != null) {
+                if (mainGroupID != null) {
                     _text = "Grupo principal desestablecido";
                     mainGroupName = null;
                     mainGroupID = null;
                 } else {
                     _text = "No hay grupo principal establecido";
+                }
+                //////////////////////////////////////////////////
+            } else if (update.getMessage().getText().contains("/setuser ")) {
+                typeMsg = 1;
+                _chatid = update.getMessage().getChatId();
+                _reply = update.getMessage().getMessageId();
+
+                String message = update.getMessage().getText();
+                String[] parts = message.split("/setuser ");
+                String part2 = parts[1];
+                try {
+                    _text = "Usuario principal establecido\n ID: " + userSelectedID;
+                    userSelectedID = Long.parseLong(part2);
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    _text = "ID invalida, introduce una ID valida";
+                }
+            } else if ("/unsetuser".equals(update.getMessage().getText())) {
+                typeMsg = 1;
+                _chatid = update.getMessage().getChatId();
+                _reply = update.getMessage().getMessageId();
+                if (userSelectedID != null) {
+                    _text = "Grupo principal desestablecido";
+                    userSelectedID = null;
+                    userSelectedName = null;
+                } else {
+                    _text = "No hay grupo principal establecido";
+                }
+                //////////////////////////////////////////////////
+            } else if (update.getMessage().getText().contains("/sethate ")) {
+                typeMsg = 1;
+                _chatid = update.getMessage().getChatId();
+                _reply = update.getMessage().getMessageId();
+
+                String message = update.getMessage().getText();
+                String[] parts = message.split("/sethate ");
+                String part2 = parts[1];
+                hate = part2;
+                _text = "Odio establecido a \"" + hate + "\"";
+            } else if ("/unsethate".equals(update.getMessage().getText())) {
+                typeMsg = 1;
+                _chatid = update.getMessage().getChatId();
+                _reply = update.getMessage().getMessageId();
+                if (hate == null) {
+                    _text = "No hay odio establecido";
+                } else {
+                    _text = "Ya no existe odio a\"" + hate + "\"";
+                    hate = null;
                 }
             } else if (update.getMessage().getText().contains("/list ")) {
                 typeMsg = 1;
@@ -775,7 +874,7 @@ public class bot extends TelegramLongPollingBot {
                 }
             } else if (update.getMessage().getText().contains("/send")) {
                 typeMsg = 1;
-                if(mainGroupID != null) {
+                if (mainGroupID != null) {
                     String message = update.getMessage().getText();
                     String[] parts = message.split("/send ");
                     String part2 = parts[1];
@@ -787,6 +886,28 @@ public class bot extends TelegramLongPollingBot {
                     _reply = update.getMessage().getMessageId();
                     _text = "No hay grupo principal establecido";
                 }
+            } else if (update.getMessage().getText().contains("/xsend")) {
+                typeMsg = 1;
+                if (userSelectedID != null) {
+                    String message = update.getMessage().getText();
+                    String[] parts = message.split("/xsend ");
+                    String part2 = parts[1];
+                    _chatid = userSelectedID;
+                    _reply = null;
+                    _text = part2;
+                } else {
+                    _chatid = update.getMessage().getChatId();
+                    _reply = update.getMessage().getMessageId();
+                    _text = "No hay grupo usuario establecido";
+                }
+            } else if ("/shutdown".equals(update.getMessage().getText())) {
+                /*
+                typeMsg = 1;
+                _reply = update.getMessage().getMessageId();
+                _chatid = update.getMessage().getChatId();
+                _text = "Bot apagado...";
+                */
+                System.exit(0);
             }
         }
         //----- ----------- ---------
@@ -841,7 +962,7 @@ public class bot extends TelegramLongPollingBot {
 
             //sending order charcodeagua
             try {
-                execute(s_msg(_text,_chatid,_reply));
+                execute(s_msg(_text, _chatid, _reply));
                 System.out.println("Orden charco de agua ejecutada");
             } catch (TelegramApiException e) {
                 e.printStackTrace();
@@ -865,7 +986,8 @@ public class bot extends TelegramLongPollingBot {
         }
 
     }
-    public String getBotUsername() { return "MariaChanTestBot"; }
 
-    public String getBotToken() { return "API_TOKEN"; }
+    public String getBotUsername() { return "MariaChanBot"; }
+
+    public String getBotToken() { return "API TOKEN"; }
 }
