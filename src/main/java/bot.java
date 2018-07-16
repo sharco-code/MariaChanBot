@@ -32,6 +32,8 @@ public class bot extends TelegramLongPollingBot {
 
     //hate word (person)
     private String hate = null;
+    //Exiled user
+    private Long exiled = null;
     //
     int randomNumRE;
 
@@ -213,396 +215,399 @@ public class bot extends TelegramLongPollingBot {
         _document = null;
         _reply = null;
         //....................................................
-        if (update.getMessage().getSticker() == null) {
-            if ("omae wa mou shindeiru".equals(update.getMessage().getText())) {
-                typeMsg = 3;
-                _text = null;
-                _photo = "https://i.makeagif.com/media/2-21-2015/RDVwim.gif";
-                _chatid = update.getMessage().getChatId();
-                _reply = update.getMessage().getMessageId();
-            } else if ("nani".equals(update.getMessage().getText()) || "NANI".equals(update.getMessage().getText()) || "Nani".equals(update.getMessage().getText())) {
-                typeMsg = 3;
-                _text = null;
-                _photo = "https://pa1.narvii.com/6715/4c6e81d7a5f2f5f642f40cf23a3cfe19881cb76e_hq.gif";
-                _chatid = update.getMessage().getChatId();
-                _reply = update.getMessage().getMessageId();
-            } else if ("aaa perro traes el omnitrix".equals(update.getMessage().getText()) || "Aaa perro traes el omnitrix".equals(update.getMessage().getText())) {
-                typeMsg = 2;
-                _text = null;
-                _photo = "https://s3.amazonaws.com/glr-fileserver/Larepublica/2018/03/04/facebook-omnitrix7-1520172526.jpg";
-                _chatid = update.getMessage().getChatId();
-                _reply = update.getMessage().getMessageId();
-            } else if ("what".equals(update.getMessage().getText()) || "WHAT".equals(update.getMessage().getText()) || "What".equals(update.getMessage().getText())) {
-                typeMsg = 3;
-                _text = null;
-                _photo = "https://media.giphy.com/media/5QTLUC40nxc1lobJGp/giphy.gif";
-                _chatid = update.getMessage().getChatId();
-                _reply = update.getMessage().getMessageId();
-            } else if ("/start".equals(update.getMessage().getText())) {
-                if (update.getMessage().getChat().isUserChat()) {
+        if(!update.getMessage().getChat().getId().equals(exiled)) {
+
+            if (update.getMessage().getSticker() == null) {
+                if ("omae wa mou shindeiru".equals(update.getMessage().getText())) {
+                    typeMsg = 3;
+                    _text = null;
+                    _photo = "https://i.makeagif.com/media/2-21-2015/RDVwim.gif";
+                    _chatid = update.getMessage().getChatId();
+                    _reply = update.getMessage().getMessageId();
+                } else if ("nani".equals(update.getMessage().getText()) || "NANI".equals(update.getMessage().getText()) || "Nani".equals(update.getMessage().getText())) {
+                    typeMsg = 3;
+                    _text = null;
+                    _photo = "https://pa1.narvii.com/6715/4c6e81d7a5f2f5f642f40cf23a3cfe19881cb76e_hq.gif";
+                    _chatid = update.getMessage().getChatId();
+                    _reply = update.getMessage().getMessageId();
+                } else if ("aaa perro traes el omnitrix".equals(update.getMessage().getText()) || "Aaa perro traes el omnitrix".equals(update.getMessage().getText())) {
+                    typeMsg = 2;
+                    _text = null;
+                    _photo = "https://s3.amazonaws.com/glr-fileserver/Larepublica/2018/03/04/facebook-omnitrix7-1520172526.jpg";
+                    _chatid = update.getMessage().getChatId();
+                    _reply = update.getMessage().getMessageId();
+                } else if ("what".equals(update.getMessage().getText()) || "WHAT".equals(update.getMessage().getText()) || "What".equals(update.getMessage().getText())) {
+                    typeMsg = 3;
+                    _text = null;
+                    _photo = "https://media.giphy.com/media/5QTLUC40nxc1lobJGp/giphy.gif";
+                    _chatid = update.getMessage().getChatId();
+                    _reply = update.getMessage().getMessageId();
+                } else if ("/start".equals(update.getMessage().getText())) {
+                    if (update.getMessage().getChat().isUserChat()) {
+                        typeMsg = 1;
+                        _text = EmojiParser.parseToUnicode("Hola " + update.getMessage().getFrom().getFirstName() + ", puedes contarme tus secretos :wink:");
+                        _photo = null;
+                        _chatid = update.getMessage().getChatId();
+                        _reply = null;
+                    }
+                } else if (update.getMessage().getText().contains("y la cosa suena ra") || update.getMessage().getText().contains("Y la cosa suena ra")) {
                     typeMsg = 1;
-                    _text = EmojiParser.parseToUnicode("Hola " + update.getMessage().getFrom().getFirstName() + ", puedes contarme tus secretos :wink:");
+                    _text = "scooby doo papa";
                     _photo = null;
                     _chatid = update.getMessage().getChatId();
                     _reply = null;
-                }
-            } else if (update.getMessage().getText().contains("y la cosa suena ra") || update.getMessage().getText().contains("Y la cosa suena ra")) {
-                typeMsg = 1;
-                _text = "scooby doo papa";
-                _photo = null;
-                _chatid = update.getMessage().getChatId();
-                _reply = null;
-            } else if (update.getMessage().getText().contains("cooby doo papa") || update.getMessage().getText().contains("cooby doo pa pa")) {
-                typeMsg = 1;
-                _photo = null;
-                _chatid = update.getMessage().getChatId();
-                _reply = null;
-
-                int rN = ThreadLocalRandom.current().nextInt(0, 4);
-                while (rN == randomNumRE) {
-                    rN = ThreadLocalRandom.current().nextInt(0, 4);
-                }
-                randomNumRE = rN;
-
-                if (rN == 0) {
-                    _text = "y el pum pum";
-                } else if (rN == 1) {
-                    _text = "y el pum pum pum";
-                } else if (rN == 2) {
-                    _text = "y el pum pum pum pum";
-                } else {
-                    _text = "y el pum pum pum pum pum";
-                }
-
-            } else if (update.getMessage().getText().contains("mariabot") || update.getMessage().getText().contains("Mariabot") || update.getMessage().getText().contains("MariaBot") || update.getMessage().getText().contains("maria bot") || update.getMessage().getText().contains("Maria bot") || update.getMessage().getText().contains("Maria Bot")) {
-
-                typeMsg = 1;
-                _chatid = update.getMessage().getChatId();
-                _reply = null;
-
-                if (hate != null && update.getMessage().getText().contains(hate)) {
-                    int randomNum = ThreadLocalRandom.current().nextInt(0, 4);
-                    while (randomNum == randomNumRE) {
-                        randomNum = ThreadLocalRandom.current().nextInt(0, 4);
-                    }
-                    randomNumRE = randomNum;
-
+                } else if (update.getMessage().getText().contains("cooby doo papa") || update.getMessage().getText().contains("cooby doo pa pa")) {
                     typeMsg = 1;
-                    _chatid = update.getMessage().getChatId();
                     _photo = null;
-                    _reply = null;
-
-                    if (randomNum == 0) {
-                        _text = EmojiParser.parseToUnicode("No tengo nada que hablar con un gilipollas como " + hate);
-                    } else if (randomNum == 1) {
-                        _text = EmojiParser.parseToUnicode("A " + hate + " no se merece ni que le hable ");
-                    } else if (randomNum == 2) {
-                        _text = EmojiParser.parseToUnicode("Que me da igual todo lo que tenga que ver con esa persona \uD83D\uDE44");
-                    } else {
-                        _text = EmojiParser.parseToUnicode("Para que mencionas al subnormal ese¿?");
-                    }
-                } else if (update.getMessage().getText().contains("si o no")) {
-                    typeMsg = 1;
                     _chatid = update.getMessage().getChatId();
                     _reply = null;
 
-                    int rNx = ThreadLocalRandom.current().nextInt(0, 6);
-                    while (rNx == randomNumRE) {
-                        rNx = ThreadLocalRandom.current().nextInt(0, 6);
-                    }
-                    randomNumRE = rNx;
-
-                    if (rNx == 0) {
-                        _text = EmojiParser.parseToUnicode("Seh :smirk:");
-                    } else if (rNx == 1) {
-                        _text = "nooooooo";
-                    } else if (rNx == 2) {
-                        _text = "ps si";
-                    } else if (rNx == 3) {
-                        _text = "ps no";
-                    } else if (rNx == 4) {
-                        _text = "Claro";
-                    } else if (rNx == 5) {
-                        _text = EmojiParser.parseToUnicode("mmm :thinking: nop");
-                    } else {
-                        _text = "puede \uD83D\uDE44";
-                    }
-                } else if (update.getMessage().getText().contains("tirar dados")) {
-                    typeMsg = 1;
-                    _chatid = update.getMessage().getChatId();
-                    _reply = null;
-
-                    int rNx = ThreadLocalRandom.current().nextInt(0, 100);
-                    while (rNx == randomNumRE) {
-                        rNx = ThreadLocalRandom.current().nextInt(0, 100);
-                    }
-                    randomNumRE = rNx;
-
-                    _text = EmojiParser.parseToUnicode(":game_die: " + update.getMessage().getFrom().getFirstName() + " tira dados y saca " + rNx + " (0-100)");
-
-                } else if (update.getMessage().getText().contains("que prefieres, ") || update.getMessage().getText().contains("que hago, ") || update.getMessage().getText().contains("quien prefieres, ") || update.getMessage().getText().contains("ariabot, ") || update.getMessage().getText().contains("aria bot, ") || update.getMessage().getText().contains("ue es mejor, ") || update.getMessage().getText().contains("elige, ") && update.getMessage().getText().contains(" o ")) {
-                    String message = update.getMessage().getText();
-                    String[] parts = message.split(", ");
-                    String part1 = parts[0];
-                    String part2 = parts[1];
-
-
-                    String[] xparts = part2.split(" o ");
-                    String xpart1 = xparts[0]; //eleccion 1
-                    String xpart2 = xparts[1]; //eleccion 2
-
-                    String realxpart1 = xpart1;
-                    String realxpart2 = xpart2;
-                    if (update.getMessage().getText().contains("¿")) {
-                        realxpart1 = xpart1.replace("¿", "");
-                    }
-                    if (update.getMessage().getText().contains("?")) {
-                        realxpart2 = xpart2.replace("?", "");
-                    }
-
-                    int rN = ThreadLocalRandom.current().nextInt(0, 2);
+                    int rN = ThreadLocalRandom.current().nextInt(0, 4);
                     while (rN == randomNumRE) {
-                        rN = ThreadLocalRandom.current().nextInt(0, 2);
+                        rN = ThreadLocalRandom.current().nextInt(0, 4);
                     }
                     randomNumRE = rN;
 
-                    String choice;
                     if (rN == 0) {
-                        choice = realxpart1;
+                        _text = "y el pum pum";
+                    } else if (rN == 1) {
+                        _text = "y el pum pum pum";
+                    } else if (rN == 2) {
+                        _text = "y el pum pum pum pum";
                     } else {
-                        choice = realxpart2;
-                    }
-                    int rN1 = ThreadLocalRandom.current().nextInt(0, 7);
-                    while (rN1 == randomNumRE) {
-                        rN1 = ThreadLocalRandom.current().nextInt(0, 7);
-                    }
-                    randomNumRE = rN1;
-                    if (rN1 == 0) {
-                        _text = "es mejor " + choice;
-                    } else if (rN1 == 1) {
-                        _text = choice + " obviamente...";
-                    } else if (rN1 == 2) {
-                        _text = "yo creo que " + choice + " es mejor uwu";
-                    } else if (rN1 == 3) {
-                        _text = choice + "? Keeeeeee";
-                    } else if (rN1 == 4) {
-                        _text = "Claramente " + choice;
-                    } else if (rN1 == 5) {
-                        _text = "puesssss " + choice + " mismo yokese";
-                    } else if (rN1 == 6) {
-                        _text = choice + " no mola...";
-                    } else {
-                        _text = "prefiero " + choice;
+                        _text = "y el pum pum pum pum pum";
                     }
 
-                } else if (update.getMessage().getText().contains("version")) {
+                } else if (update.getMessage().getText().contains("mariabot") || update.getMessage().getText().contains("Mariabot") || update.getMessage().getText().contains("MariaBot") || update.getMessage().getText().contains("maria bot") || update.getMessage().getText().contains("Maria bot") || update.getMessage().getText().contains("Maria Bot")) {
+
+                    typeMsg = 1;
+                    _chatid = update.getMessage().getChatId();
+                    _reply = null;
+
+                    if (hate != null && update.getMessage().getText().contains(hate)) {
+                        int randomNum = ThreadLocalRandom.current().nextInt(0, 4);
+                        while (randomNum == randomNumRE) {
+                            randomNum = ThreadLocalRandom.current().nextInt(0, 4);
+                        }
+                        randomNumRE = randomNum;
+
+                        typeMsg = 1;
+                        _chatid = update.getMessage().getChatId();
+                        _photo = null;
+                        _reply = null;
+
+                        if (randomNum == 0) {
+                            _text = EmojiParser.parseToUnicode("No tengo nada que hablar con un gilipollas como " + hate);
+                        } else if (randomNum == 1) {
+                            _text = EmojiParser.parseToUnicode("A " + hate + " no se merece ni que le hable ");
+                        } else if (randomNum == 2) {
+                            _text = EmojiParser.parseToUnicode("Que me da igual todo lo que tenga que ver con esa persona \uD83D\uDE44");
+                        } else {
+                            _text = EmojiParser.parseToUnicode("Para que mencionas al subnormal ese¿?");
+                        }
+                    } else if (update.getMessage().getText().contains("si o no")) {
+                        typeMsg = 1;
+                        _chatid = update.getMessage().getChatId();
+                        _reply = null;
+
+                        int rNx = ThreadLocalRandom.current().nextInt(0, 6);
+                        while (rNx == randomNumRE) {
+                            rNx = ThreadLocalRandom.current().nextInt(0, 6);
+                        }
+                        randomNumRE = rNx;
+
+                        if (rNx == 0) {
+                            _text = EmojiParser.parseToUnicode("Seh :smirk:");
+                        } else if (rNx == 1) {
+                            _text = "nooooooo";
+                        } else if (rNx == 2) {
+                            _text = "ps si";
+                        } else if (rNx == 3) {
+                            _text = "ps no";
+                        } else if (rNx == 4) {
+                            _text = "Claro";
+                        } else if (rNx == 5) {
+                            _text = EmojiParser.parseToUnicode("mmm :thinking: nop");
+                        } else {
+                            _text = "puede \uD83D\uDE44";
+                        }
+                    } else if (update.getMessage().getText().contains("tirar dados")) {
+                        typeMsg = 1;
+                        _chatid = update.getMessage().getChatId();
+                        _reply = null;
+
+                        int rNx = ThreadLocalRandom.current().nextInt(0, 101);
+                        while (rNx == randomNumRE) {
+                            rNx = ThreadLocalRandom.current().nextInt(0, 101);
+                        }
+                        randomNumRE = rNx;
+
+                        _text = EmojiParser.parseToUnicode(":game_die: " + update.getMessage().getFrom().getFirstName() + " tira dados y saca " + rNx + " (0-100)");
+
+                    } else if (update.getMessage().getText().contains("que prefieres, ") || update.getMessage().getText().contains("que hago, ") || update.getMessage().getText().contains("quien prefieres, ") || update.getMessage().getText().contains("ariabot, ") || update.getMessage().getText().contains("aria bot, ") || update.getMessage().getText().contains("ue es mejor, ") || update.getMessage().getText().contains("elige, ") && update.getMessage().getText().contains(" o ")) {
+                        String message = update.getMessage().getText();
+                        String[] parts = message.split(", ");
+                        String part1 = parts[0];
+                        String part2 = parts[1];
+
+
+                        String[] xparts = part2.split(" o ");
+                        String xpart1 = xparts[0]; //eleccion 1
+                        String xpart2 = xparts[1]; //eleccion 2
+
+                        String realxpart1 = xpart1;
+                        String realxpart2 = xpart2;
+                        if (update.getMessage().getText().contains("¿")) {
+                            realxpart1 = xpart1.replace("¿", "");
+                        }
+                        if (update.getMessage().getText().contains("?")) {
+                            realxpart2 = xpart2.replace("?", "");
+                        }
+
+                        int rN = ThreadLocalRandom.current().nextInt(0, 2);
+                        while (rN == randomNumRE) {
+                            rN = ThreadLocalRandom.current().nextInt(0, 2);
+                        }
+                        randomNumRE = rN;
+
+                        String choice;
+                        if (rN == 0) {
+                            choice = realxpart1;
+                        } else {
+                            choice = realxpart2;
+                        }
+                        int rN1 = ThreadLocalRandom.current().nextInt(0, 7);
+                        while (rN1 == randomNumRE) {
+                            rN1 = ThreadLocalRandom.current().nextInt(0, 7);
+                        }
+                        randomNumRE = rN1;
+                        if (rN1 == 0) {
+                            _text = "es mejor " + choice;
+                        } else if (rN1 == 1) {
+                            _text = choice + " obviamente...";
+                        } else if (rN1 == 2) {
+                            _text = "yo creo que " + choice + " es mejor uwu";
+                        } else if (rN1 == 3) {
+                            _text = choice + "? Keeeeeee";
+                        } else if (rN1 == 4) {
+                            _text = "Claramente " + choice;
+                        } else if (rN1 == 5) {
+                            _text = "puesssss " + choice + " mismo yokese";
+                        } else if (rN1 == 6) {
+                            _text = choice + " no mola...";
+                        } else {
+                            _text = "prefiero " + choice;
+                        }
+
+                    } else if (update.getMessage().getText().contains("version")) {
+                        typeMsg = 1;
+                        _chatid = update.getMessage().getChatId();
+                        _reply = update.getMessage().getMessageId();
+                        _text = "version actual: 1.10.0";
+                    } else if (update.getMessage().getText().contains("dime algo")) {
+                        typeMsg = 5;
+                        _chatid = update.getMessage().getChatId();
+                        _sticker = "CAADBAADAQADfzg3HWAWY4VyPGK3Ag";
+                    } else if (update.getMessage().getText().contains("ataca")) {
+                        typeMsg = 1;
+                        _photo = null;
+                        _chatid = update.getMessage().getChatId();
+                        _reply = null;
+
+                        int rN = ThreadLocalRandom.current().nextInt(0, 6);
+                        while (rN == randomNumRE) {
+                            rN = ThreadLocalRandom.current().nextInt(0, 6);
+                        }
+                        randomNumRE = rN;
+
+                        if (rN == 0) {
+                            _text = "Tu waifu es un trap";
+                        } else if (rN == 1) {
+                            _text = "Tu waifu no existe";
+                        } else if (rN == 2) {
+                            _text = "Tu waifu no es real";
+                        } else if (rN == 3) {
+                            _text = "Tu waifu es pokemon";
+                        } else if (rN == 4) {
+                            _text = "Eres tan feo que ni los ghouls te quieren comer";
+                        } else {
+                            _text = "Tu waifu es una kk";
+                        }
+                    } else if (update.getMessage().getText().contains("que opinas")) {
+                        int randomNum = ThreadLocalRandom.current().nextInt(0, 4);
+                        while (randomNum == randomNumRE) {
+                            randomNum = ThreadLocalRandom.current().nextInt(0, 4);
+                        }
+                        randomNumRE = randomNum;
+
+                        typeMsg = 1;
+                        _chatid = update.getMessage().getChatId();
+                        _photo = null;
+                        _reply = null;
+
+                        if (randomNum == 0) {
+                            _text = EmojiParser.parseToUnicode("que es una kk :no_mouth:");
+                        } else if (randomNum == 1) {
+                            _text = EmojiParser.parseToUnicode("tiene razon " + update.getMessage().getFrom().getFirstName() + " obviamente");
+                        } else if (randomNum == 2) {
+                            _text = EmojiParser.parseToUnicode("que me da igual \uD83D\uDE44");
+                        } else {
+                            _text = EmojiParser.parseToUnicode("mmm :thinking:");
+                        }
+                    } else {
+
+                        int randomNum = ThreadLocalRandom.current().nextInt(0, 14);
+                        while (randomNum == randomNumRE) {
+                            randomNum = ThreadLocalRandom.current().nextInt(0, 14);
+                        }
+                        randomNumRE = randomNum;
+
+                        //all phrases
+                        if (update.getMessage().getText().contains("put") || update.getMessage().getText().contains("tont") || update.getMessage().getText().contains("inutil") || update.getMessage().getText().contains("subnormal") || update.getMessage().getText().contains("estupid") || update.getMessage().getText().contains("maricon") || update.getMessage().getText().contains("cabron") || update.getMessage().getText().contains("idiota") || update.getMessage().getText().contains("baka") || update.getMessage().getText().contains("feo") || update.getMessage().getText().contains("fea") || update.getMessage().getText().contains("muert") || update.getMessage().getText().contains("baka")) {
+                            if (randomNum == 1) {
+                                _text = "eh, sin insultar xd";
+                            } else if (randomNum == 2) {
+                                _text = "no digas palabrotas";
+                            } else if (randomNum == 3) {
+                                _text = ":c";
+                            } else if (randomNum == 4) {
+                                _text = "khe pesaos che";
+                            } else if (randomNum == 5 || randomNum == 5) {
+                                _text = "acho";
+                            } else if (randomNum == 7) {
+                                _text = "tonto tu";
+                            } else if (randomNum == 8) {
+                                _text = "te saco la navaja";
+                            } else if (randomNum == 9) {
+                                _text = "vas a morir";
+                            } else if (randomNum == 10) {
+                                _text = "no me hables asi";
+                            } else if (randomNum == 11) {
+                                _text = EmojiParser.parseToUnicode("enserio... :neutral_face:");
+                            } else if (randomNum == 12) {
+                                typeMsg = 5;
+                                _sticker = "CAADBAADxgYAAl6KcQABhIOJZu1-RfUC";
+                            } else if (randomNum == 13) {
+                                typeMsg = 5;
+                                _sticker = "CAADAQAD5QADWF7QDln-Rovfrc4LAg";
+                            } else {
+                                _text = "vaya tela...";
+                            }
+                        } else {
+                            if (randomNum == 1) {
+                                _text = "ehhhh";
+                            } else if (randomNum == 2) {
+                                _text = "que pasa aqui?";
+                            } else if (randomNum == 3) {
+                                _text = EmojiParser.parseToUnicode(":thinking:");
+                            } else if (randomNum == 4) {
+                                _text = "khe pesaos";
+                            } else if (randomNum == 5 || randomNum == 5) {
+                                _text = "acho";
+                            } else if (randomNum == 7) {
+                                _text = "achoo";
+                            } else if (randomNum == 8) {
+                                _text = "que dices";
+                            } else if (randomNum == 9) {
+                                _text = ":3";
+                            } else if (randomNum == 10) {
+                                _text = ":c";
+                            } else if (randomNum == 11) {
+                                _text = EmojiParser.parseToUnicode(":neutral_face:");
+                            } else if (randomNum == 12) {
+                                _text = EmojiParser.parseToUnicode("Ssshhhhh");
+                            } else if (randomNum == 13) {
+                                _text = EmojiParser.parseToUnicode("Diuuuuu");
+                            } else {
+                                _text = "uwu";
+                            }
+                        }
+                    }
+
+                } else if (update.getMessage().getText().contains(":(")) {
                     typeMsg = 1;
                     _chatid = update.getMessage().getChatId();
                     _reply = update.getMessage().getMessageId();
-                    _text = "version actual: 1.9.2";
-                } else if (update.getMessage().getText().contains("dime algo")) {
-                    typeMsg = 5;
-                    _chatid = update.getMessage().getChatId();
-                    _sticker = "CAADBAADAQADfzg3HWAWY4VyPGK3Ag";
-                } else if (update.getMessage().getText().contains("ataca")) {
-                    typeMsg = 1;
-                    _photo = null;
-                    _chatid = update.getMessage().getChatId();
-                    _reply = null;
 
-                    int rN = ThreadLocalRandom.current().nextInt(0, 6);
-                    while (rN == randomNumRE) {
-                        rN = ThreadLocalRandom.current().nextInt(0, 6);
-                    }
-                    randomNumRE = rN;
-
-                    if (rN == 0) {
-                        _text = "Tu waifu es un trap";
-                    } else if (rN == 1) {
-                        _text = "Tu waifu no existe";
-                    } else if (rN == 2) {
-                        _text = "Tu waifu no es real";
-                    } else if (rN == 3) {
-                        _text = "Tu waifu es pokemon";
-                    } else if (rN == 4) {
-                        _text = "Eres tan feo que ni los ghouls te quieren comer";
-                    } else {
-                        _text = "Tu waifu es una kk";
-                    }
-                } else if (update.getMessage().getText().contains("que opinas")) {
                     int randomNum = ThreadLocalRandom.current().nextInt(0, 4);
                     while (randomNum == randomNumRE) {
                         randomNum = ThreadLocalRandom.current().nextInt(0, 4);
                     }
                     randomNumRE = randomNum;
 
+                    if (randomNum == 0) {
+                        _text = "Sonrie princesa";
+                    } else if (randomNum == 1) {
+                        _text = "no estes triste";
+                    } else if (randomNum == 2) {
+                        _text = ":)";
+                    } else {
+                        _text = "acho alegrate";
+                    }
+
+                } else if (update.getMessage().getText().contains("ntentar ")) {
                     typeMsg = 1;
                     _chatid = update.getMessage().getChatId();
-                    _photo = null;
                     _reply = null;
 
-                    if (randomNum == 0) {
-                        _text = EmojiParser.parseToUnicode("que es una kk :no_mouth:");
-                    } else if (randomNum == 1) {
-                        _text = EmojiParser.parseToUnicode("tiene razon " + update.getMessage().getFrom().getFirstName() + " obviamente");
-                    } else if (randomNum == 2) {
-                        _text = EmojiParser.parseToUnicode("que me da igual \uD83D\uDE44");
-                    } else {
-                        _text = EmojiParser.parseToUnicode("mmm :thinking:");
-                    }
-                } else {
+                    String message = update.getMessage().getText();
+                    String[] parts = message.split("ntentar ");
+                    String part1 = parts[0]; // intentar
+                    String part2 = parts[1]; // intento
 
-                    int randomNum = ThreadLocalRandom.current().nextInt(0, 14);
+                    int randomNum = ThreadLocalRandom.current().nextInt(0, 5);
                     while (randomNum == randomNumRE) {
-                        randomNum = ThreadLocalRandom.current().nextInt(0, 14);
+                        randomNum = ThreadLocalRandom.current().nextInt(0, 5);
                     }
                     randomNumRE = randomNum;
 
-                    //all phrases
-                    if (update.getMessage().getText().contains("put") || update.getMessage().getText().contains("tont") || update.getMessage().getText().contains("inutil") || update.getMessage().getText().contains("subnormal") || update.getMessage().getText().contains("estupid") || update.getMessage().getText().contains("maricon") || update.getMessage().getText().contains("cabron") || update.getMessage().getText().contains("idiota") || update.getMessage().getText().contains("baka") || update.getMessage().getText().contains("feo") || update.getMessage().getText().contains("fea") || update.getMessage().getText().contains("muert") || update.getMessage().getText().contains("baka")) {
-                        if (randomNum == 1) {
-                            _text = "eh, sin insultar xd";
-                        } else if (randomNum == 2) {
-                            _text = "no digas palabrotas";
-                        } else if (randomNum == 3) {
-                            _text = ":c";
-                        } else if (randomNum == 4) {
-                            _text = "khe pesaos che";
-                        } else if (randomNum == 5 || randomNum == 5) {
-                            _text = "acho";
-                        } else if (randomNum == 7) {
-                            _text = "tonto tu";
-                        } else if (randomNum == 8) {
-                            _text = "te saco la navaja";
-                        } else if (randomNum == 9) {
-                            _text = "vas a morir";
-                        } else if (randomNum == 10) {
-                            _text = "no me hables asi";
-                        } else if (randomNum == 11) {
-                            _text = EmojiParser.parseToUnicode("enserio... :neutral_face:");
-                        } else if (randomNum == 12) {
-                            typeMsg = 5;
-                            _sticker = "CAADBAADxgYAAl6KcQABhIOJZu1-RfUC";
-                        } else if (randomNum == 13) {
-                            typeMsg = 5;
-                            _sticker = "CAADAQAD5QADWF7QDln-Rovfrc4LAg";
-                        } else {
-                            _text = "vaya tela...";
-                        }
+                    if (randomNum == 2) {
+                        _text = EmojiParser.parseToUnicode(":game_die: " + update.getMessage().getFrom().getFirstName() + " intento " + part2 + " y lo consigue");
                     } else {
-                        if (randomNum == 1) {
-                            _text = "ehhhh";
-                        } else if (randomNum == 2) {
-                            _text = "que pasa aqui?";
-                        } else if (randomNum == 3) {
-                            _text = EmojiParser.parseToUnicode(":thinking:");
-                        } else if (randomNum == 4) {
-                            _text = "khe pesaos";
-                        } else if (randomNum == 5 || randomNum == 5) {
-                            _text = "acho";
-                        } else if (randomNum == 7) {
-                            _text = "achoo";
-                        } else if (randomNum == 8) {
-                            _text = "que dices";
-                        } else if (randomNum == 9) {
-                            _text = ":3";
-                        } else if (randomNum == 10) {
-                            _text = ":c";
-                        } else if (randomNum == 11) {
-                            _text = EmojiParser.parseToUnicode(":neutral_face:");
-                        } else if (randomNum == 12) {
-                            _text = EmojiParser.parseToUnicode("Ssshhhhh");
-                        } else if (randomNum == 13) {
-                            _text = EmojiParser.parseToUnicode("Diuuuuu");
-                        } else {
-                            _text = "uwu";
+                        _text = EmojiParser.parseToUnicode(":game_die: " + update.getMessage().getFrom().getFirstName() + " intento " + part2 + " pero falló");
+                    }
+
+                } /* else if (update.getMessage().getText().contains("charcodeagua")) {
+                    typeMsg = 1;
+                    _chatid = update.getMessage().getChatId();
+                    _reply = update.getMessage().getMessageId();
+                    _text = "Ejecutando Orden <charco de agua>";
+                    ordercda = 1;
+                }*/else if (update.getMessage().getText().contains("ugerencia: ")) {
+                    typeMsg = 1;
+                    String message = update.getMessage().getText();
+                    String[] parts = message.split("ugerencia: ");
+                    String part1 = parts[0];
+                    String part2 = parts[1];
+
+                    BufferedWriter bw = null;
+                    FileWriter fw = null;
+
+                    try {
+                        fw = new FileWriter("sugerencias.txt", true);
+                        String text = "@" + update.getMessage().getFrom().getUserName() + " - " + update.getMessage().getFrom().getFirstName() + ": " + part2 + "\n";
+                        bw = new BufferedWriter(fw);
+                        bw.write(text);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } finally {
+                        try {
+                            if (bw != null)
+                                bw.close();
+                            if (fw != null)
+                                fw.close();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
                         }
                     }
+
+                    _chatid = update.getMessage().getChatId();
+                    _reply = update.getMessage().getMessageId();
+                    _text = EmojiParser.parseToUnicode("Sugerencia guardada, gracias " + update.getMessage().getFrom().getFirstName() + "! :smile:");
                 }
-
-            } else if (update.getMessage().getText().contains(":(")) {
-                typeMsg = 1;
-                _chatid = update.getMessage().getChatId();
-                _reply = update.getMessage().getMessageId();
-
-                int randomNum = ThreadLocalRandom.current().nextInt(0, 4);
-                while (randomNum == randomNumRE) {
-                    randomNum = ThreadLocalRandom.current().nextInt(0, 4);
-                }
-                randomNumRE = randomNum;
-
-                if (randomNum == 0) {
-                    _text = "Sonrie princesa";
-                } else if (randomNum == 1) {
-                    _text = "no estes triste";
-                } else if (randomNum == 2) {
-                    _text = ":)";
-                } else {
-                    _text = "acho alegrate";
-                }
-
-            } else if (update.getMessage().getText().contains("ntentar ")) {
-                typeMsg = 1;
-                _chatid = update.getMessage().getChatId();
-                _reply = null;
-
-                String message = update.getMessage().getText();
-                String[] parts = message.split("ntentar ");
-                String part1 = parts[0]; // intentar
-                String part2 = parts[1]; // intento
-
-                int randomNum = ThreadLocalRandom.current().nextInt(0, 5);
-                while (randomNum == randomNumRE) {
-                    randomNum = ThreadLocalRandom.current().nextInt(0, 5);
-                }
-                randomNumRE = randomNum;
-
-                if (randomNum == 2) {
-                    _text = EmojiParser.parseToUnicode(":game_die: " + update.getMessage().getFrom().getFirstName() + " intento " + part2 + " y lo consigue");
-                } else {
-                    _text = EmojiParser.parseToUnicode(":game_die: " + update.getMessage().getFrom().getFirstName() + " intento " + part2 + " pero falló");
-                }
-
-            } else if (update.getMessage().getText().contains("charcodeagua")) {
-                typeMsg = 1;
-                _chatid = update.getMessage().getChatId();
-                _reply = update.getMessage().getMessageId();
-                _text = "Ejecutando Orden <charco de agua>";
-                ordercda = 1;
-            } else if (update.getMessage().getText().contains("ugerencia: ")) {
-                typeMsg = 1;
-                String message = update.getMessage().getText();
-                String[] parts = message.split("ugerencia: ");
-                String part1 = parts[0];
-                String part2 = parts[1];
-
-                BufferedWriter bw = null;
-                FileWriter fw = null;
-
-                try {
-                    fw = new FileWriter("sugerencias.txt", true);
-                    String text = "@" + update.getMessage().getFrom().getUserName() + " - " + update.getMessage().getFrom().getFirstName() + ": " + part2 + "\n";
-                    bw = new BufferedWriter(fw);
-                    bw.write(text);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } finally {
-                    try {
-                        if (bw != null)
-                            bw.close();
-                        if (fw != null)
-                            fw.close();
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                }
-
-                _chatid = update.getMessage().getChatId();
-                _reply = update.getMessage().getMessageId();
-                _text = EmojiParser.parseToUnicode("Sugerencia guardada, gracias " + update.getMessage().getFrom().getFirstName() + "! :smile:");
+            } else {
+                System.out.println("Sticker ID: " + update.getMessage().getSticker().getFileId());
             }
-        } else {
-            System.out.println("Sticker ID: " + update.getMessage().getSticker().getFileId());
         }
 
         //----- GOD ORDERS ---------
@@ -721,6 +726,13 @@ public class bot extends TelegramLongPollingBot {
                             _text = "No hay grupo principal establecido";
                         }
                         break;
+                    case "exiled":
+                        if (exiled != null) {
+                            _text = "Id de usuario exiliado: " + exiled;
+                        } else {
+                            _text = "No hay usuario exiliado";
+                        }
+                        break;
                     default:
                         _text = "No puedo mostrar informacion sobre <" + part2 + ">";
                         System.out.println("Error en /info switch");
@@ -752,19 +764,19 @@ public class bot extends TelegramLongPollingBot {
                 typeMsg = 1;
                 _chatid = update.getMessage().getChatId();
                 _reply = update.getMessage().getMessageId();
-                _text = "COMANDOS:\n/help\n muestra ayuda\n/run <comando>\nejecuta comandos\n/list <algo>\n te lista informacion sobre algo\n escribe \"/help list\" para mas ayuda\n/chat <usuario>\n lista la conversación\n/info <algo>\n escribe \"/help info\" para mas ayuda\n/get <archivo>\n escribe \"/help get\" para mas ayuda\n/setmaingroup\n establece grupo principal\n/unsetmaingroup\n quita el grupo principal establecido\n/send <texto>\n envia un mensaje al grupo principal\n/sethate <alguien>\n el bot odiara esa persona\n/unsethate\n ya no odiara a la persona establecida\n/setuser <ID de usuario>\n establece un usuario, al cual le podras enviar mensajes\n/unsetuser\n quita el usuario establecido\n/xsend <texto>\n envia un mensaje a el usuario establecido\nZONA PELIGROSA\n/unsetgod\n  ya no seras dios\n/shutdown\n apaga el bot";
+                    _text = "COMANDOS:\n/help\n muestra ayuda\n/run <comando>\nejecuta comandos\n/list <algo>\n te lista informacion sobre algo\n escribe \"/help list\" para mas ayuda\n/chat <usuario>\n lista la conversación\n/info <algo>\n escribe \"/help info\" para mas ayuda\n/get <archivo>\n escribe \"/help get\" para mas ayuda\n/setmaingroup\n establece grupo principal\n/unsetmaingroup\n quita el grupo principal establecido\n/send <texto>\n envia un mensaje al grupo principal\n/sethate <alguien>\n el bot odiara esa persona\n/unsethate\n ya no odiara a la persona establecida\n/setuser <ID de usuario>\n establece un usuario, al cual le podras enviar mensajes\n/unsetuser\n quita el usuario establecido\n/xsend <texto>\n envia un mensaje a el usuario establecido\n/exile <ID>\n el usuario exiliado no podra interaccionar con el bot\n/unexile\n quita el usuario exiliado\nZONA PELIGROSA\n/unsetgod\n ya no seras dios\n/shutdown\n apaga el bot";
             } else if ("/help info".equals(update.getMessage().getText())) {
                 typeMsg = 1;
                 _chatid = update.getMessage().getChatId();
                 _reply = update.getMessage().getMessageId();
-                _text = "/info <algo>\n muestra informacion sobre algo, por ejemplo:\n/info god 1\n/info god 2\n/info chat";
+                _text = "/info <algo>\n muestra informacion sobre algo, por ejemplo:\n/info god 1\n/info god 2\n/info chat\n/info setuser\n/info maingroup\n/info exiled";
             } else if ("/help get".equals(update.getMessage().getText())) {
                 typeMsg = 1;
                 _chatid = update.getMessage().getChatId();
                 _reply = update.getMessage().getMessageId();
                 _text = "/get <archivo>\n te envia un documento, ejemplos:\n/get sugerencias.txt\n si es un grupo y contiene espacios, tienes que ponerlo con guiones, ej:\n /get Grupo-test.txt";
             } else if ("/help list".equals(update.getMessage().getText())) {
-                typeMsg = 1;
+                    typeMsg = 1;
                 _chatid = update.getMessage().getChatId();
                 _reply = update.getMessage().getMessageId();
                 _text = "/list <algo>\n te lista algo, ejemplos:\n/list chats\n te lista los usuarios que han hablado al bot\n/list groups\nte lista los grupos en los que ha estado el bot\n/list maingroup\n lista los usuarios de el grupo principal";
@@ -781,7 +793,7 @@ public class bot extends TelegramLongPollingBot {
                         _text = "Esto no es un grupo";
                     }
                 } else {
-                    if (update.getMessage().getChat().isGroupChat()) {
+                    if (update.getMessage().getChat().isGroupChat() || update.getMessage().getChat().isSuperGroupChat() || update.getMessage().getChat().isChannelChat()) {
                         mainGroupName = update.getMessage().getChat().getTitle();
                         mainGroupID = update.getMessage().getChatId();
                         _text = "Grupo principal establecido\nGrupo: " + mainGroupName + "\nChat ID: " + mainGroupID;
@@ -828,6 +840,32 @@ public class bot extends TelegramLongPollingBot {
                     _text = "No hay grupo principal establecido";
                 }
                 //////////////////////////////////////////////////
+            }else if ("/exile ".equals(update.getMessage().getText())) {
+                typeMsg = 1;
+                _chatid = update.getMessage().getChatId();
+                _reply = update.getMessage().getMessageId();
+
+                String message = update.getMessage().getText();
+                String[] parts = message.split("/setuser ");
+                String part2 = parts[1];
+                try {
+                    exiled = Long.parseLong(part2);
+                    _text = "Usuario exiliado\n ID: " + exiled;
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    _text = "ID invalida, introduce una ID valida";
+                }
+            }else if ("/unexile ".equals(update.getMessage().getText())) {
+                typeMsg = 1;
+                _chatid = update.getMessage().getChatId();
+                _reply = update.getMessage().getMessageId();
+
+                if (exiled == null) {
+                    _text = "No hay nadie exiliado";
+                } else {
+                    _text = "ID: " + exiled + "\nYa no esta exiliado";
+                    exiled = null;
+                }
             } else if (update.getMessage().getText().contains("/sethate ")) {
                 typeMsg = 1;
                 _chatid = update.getMessage().getChatId();
@@ -941,7 +979,7 @@ public class bot extends TelegramLongPollingBot {
                 e.printStackTrace();
             }
         }
-
+        /*
         if (ordercda == 1) {
             String grpName = update.getMessage().getChat().getTitle();
             String usName = update.getMessage().getFrom().getUserName();
@@ -978,10 +1016,11 @@ public class bot extends TelegramLongPollingBot {
                 e.printStackTrace();
             }
         }
+        */
 
     }
 
     public String getBotUsername() { return "MariaChanBot"; }
 
-    public String getBotToken() { return "BOT_TOKEN"; }
+    public String getBotToken() { return "API_TOKEN"; }
 }
