@@ -403,7 +403,7 @@ public class bot extends TelegramLongPollingBot {
                         typeMsg = 1;
                         _chatid = update.getMessage().getChatId();
                         _reply = update.getMessage().getMessageId();
-                        _text = "version actual: 1.10.0";
+                        _text = "version actual: 1.10.1";
                     } else if (update.getMessage().getText().contains("dime algo")) {
                         typeMsg = 5;
                         _chatid = update.getMessage().getChatId();
@@ -788,6 +788,7 @@ public class bot extends TelegramLongPollingBot {
                     if (update.getMessage().getChat().isGroupChat() || update.getMessage().getChat().isSuperGroupChat() || update.getMessage().getChat().isChannelChat()) {
                         mainGroupName = update.getMessage().getChat().getTitle();
                         mainGroupID = update.getMessage().getChatId();
+
                         _text = "Grupo principal cambiado\nGrupo: " + mainGroupName + "\nChat ID: " + mainGroupID;
                     } else {
                         _text = "Esto no es un grupo";
@@ -840,13 +841,13 @@ public class bot extends TelegramLongPollingBot {
                     _text = "No hay grupo principal establecido";
                 }
                 //////////////////////////////////////////////////
-            }else if ("/exile ".equals(update.getMessage().getText())) {
+            }else if (update.getMessage().getText().contains("/exile ")) {
                 typeMsg = 1;
                 _chatid = update.getMessage().getChatId();
                 _reply = update.getMessage().getMessageId();
 
                 String message = update.getMessage().getText();
-                String[] parts = message.split("/setuser ");
+                String[] parts = message.split("/exile ");
                 String part2 = parts[1];
                 try {
                     exiled = Long.parseLong(part2);
@@ -855,7 +856,7 @@ public class bot extends TelegramLongPollingBot {
                     e.printStackTrace();
                     _text = "ID invalida, introduce una ID valida";
                 }
-            }else if ("/unexile ".equals(update.getMessage().getText())) {
+            }else if ("/unexile".equals(update.getMessage().getText())) {
                 typeMsg = 1;
                 _chatid = update.getMessage().getChatId();
                 _reply = update.getMessage().getMessageId();
@@ -1022,5 +1023,5 @@ public class bot extends TelegramLongPollingBot {
 
     public String getBotUsername() { return "MariaChanBot"; }
 
-    public String getBotToken() { return "API_TOKEN"; }
+    public String getBotToken() { return "629718256:AAFYUoNQKkdZBYuQ4g0cQHBGnXtawS_KK8s"; }
 }
