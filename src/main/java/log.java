@@ -5,7 +5,6 @@ import java.util.*;
 
 public class log {
 
-
     public void log(String User_name, Integer User_id,String Title, String User_text, int kind) {
 
         BufferedWriter bw = null;
