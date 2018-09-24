@@ -26,8 +26,6 @@ public class log {
             try {
                 if (bw != null)
                     bw.close();
-                if (fw != null)
-                    fw.close();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
